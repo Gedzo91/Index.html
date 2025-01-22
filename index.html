@@ -1,0 +1,772 @@
+  <title>Macintosh System 1.0 (1984) - Fullscreen</title>
+  <style>
+    @font-face {
+      font-family: 'Chicago';
+      src: url('https://fontlibrary.org/assets/fonts/chicago/86c0ff3a7732e789b73110287fec34ff/f0ce444da69fc1e6987a4dea39a0ed64/ChicagoFLFRegular.ttf') format('truetype');
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Chicago', monospace;
+      background-color: #000;
+      color: #000;
+      user-select: none;
+    }
+    .screen {
+      width: 100vw;
+      height: 100vh;
+      background-color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .menubar {
+      height: 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      padding-left: 7px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    .apple-logo {
+      width: 13px;
+      height: 16px;
+      background-color: #000;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 170'%3E%3Cpath d='M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929 0.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002 0.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-0.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-0.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71 0.12 1.083 0.17 2.166 0.17 3.24z'/%3E%3C/svg%3E") no-repeat 50% 50%;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 170'%3E%3Cpath d='M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929 0.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002 0.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-0.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-0.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71 0.12 1.083 0.17 2.166 0.17 3.24z'/%3E%3C/svg%3E") no-repeat 50% 50%;
+      -webkit-mask-size: cover;
+      mask-size: cover;
+      margin-right: 10px;
+    }
+    .menu-item {
+      margin-right: 12px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .icon {
+      width: 64px;
+      height: 64px;
+      background-color: transparent;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 12px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .icon img {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 5px;
+    }
+    .trash {
+      bottom: 20px;
+      right: 20px;
+    }
+    .disk {
+      top: 40px;
+      left: 20px;
+    }
+    .window {
+      width: 400px;
+      height: 300px;
+      background-color: #fff;
+      border: 2px solid #000;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+    .window-header {
+      height: 18px;
+      background-color: #000;
+      background-image: repeating-linear-gradient(to right, #fff, #fff 1px, transparent 1px, transparent 2px);
+      background-size: 4px 100%;
+      border-bottom: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5px;
+      cursor: move;
+    }
+    .window-title {
+      color: #000;
+      font-size: 12px;
+      background-color: #fff;
+      padding: 0 5px;
+    }
+    .close-button {
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      border: 1px solid #000;
+      cursor: pointer;
+    }
+    .window-content {
+      padding: 10px;
+      font-size: 12px;
+      overflow: auto;
+      height: calc(100% - 38px);
+    }
+    .clock {
+      position: absolute;
+      top: 3px;
+      right: 10px;
+      font-size: 12px;
+      color: #000;
+    }
+    .file-icon {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+    .file-icon img {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+    }
+    .file-icon.dragging {
+      opacity: 0.5;
+    }
+    #macpaintWindow, #macwriteWindow, #finderWindow, #blackjackWindow, #macworkshopWindow {
+      display: none;
+    }
+    #paintCanvas, #workshopCanvas {
+      border: 1px solid #000;
+      cursor: crosshair;
+    }
+    #writeTextarea, #workshopTextarea {
+      width: 100%;
+      height: calc(100% - 20px);
+      resize: none;
+      font-family: 'Chicago', monospace;
+      font-size: 12px;
+      border: none;
+      outline: none;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .toolbar button, .toolbar select {
+      font-family: 'Chicago', monospace;
+      font-size: 12px;
+      padding: 2px 5px;
+    }
+    #welcomeScreen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #welcomeScreen img {
+      width: 128px;
+      height: 128px;
+      margin-bottom: 20px;
+    }
+    #welcomeScreen h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    #welcomeScreen p {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    #welcomeScreen button {
+      font-family: 'Chicago', monospace;
+      font-size: 14px;
+      padding: 5px 10px;
+    }
+    .folder-tooltip {
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 5px;
+      font-size: 12px;
+      z-index: 1000;
+      display: none;
+    }
+    #blackjackTable {
+      width: 100%;
+      height: 200px;
+      background-color: #076324;
+      border: 2px solid #000;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .hand {
+      display: flex;
+      justify-content: center;
+    }
+    .card {
+      width: 40px;
+      height: 60px;
+      background-color: #fff;
+      border: 1px solid #000;
+      margin: 0 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="welcomeScreen">
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 170'%3E%3Cpath fill='%23000' d='M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929 0.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002 0.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-0.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-0.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71 0.12 1.083 0.17 2.166 0.17 3.24z'/%3E%3C/svg%3E" alt="Apple Logo">
+    <h1>Welcome to Macintosh</h1>
+    <p>Experience the revolutionary Macintosh System 1.0</p>
+    <button onclick="closeWelcomeScreen()">Start</button>
+  </div>
+
+  <div class="screen">
+    <div class="menubar">
+      <div class="apple-logo"></div>
+      <span class="menu-item" onclick="showAbout()">About</span>
+      <span class="menu-item">File</span>
+      <span class="menu-item">Edit</span>
+      <span class="menu-item">View</span>
+      <span class="menu-item" onclick="showSpecialMenu()">Special</span>
+      <div class="clock" id="clock"></div>
+    </div>
+    <div class="icon trash">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 3v1H4v2h1v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1V4h-5V3H9M7 6h10v13H7V6m2 2v9h2V8H9m4 0v9h2V8h-2Z'/%3E%3C/svg%3E" alt="Trash">
+      Trash
+    </div>
+    <div class="icon disk">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-6c-1.11 0-2-.89-2-2s.89-2 2-2 2 .89 2 2-.89 2-2 2Z'/%3E%3C/svg%3E" alt="Disk">
+      Macintosh Explorer
+    </div>
+    <div class="window" id="diskWindow">
+      <div class="window-header">
+        <div class="close-button" onclick="closeWindow('diskWindow')"></div>
+        <span class="window-title">Macintosh Explorer</span>
+      </div>
+      <div class="window-content">
+        <div class="toolbar">
+          <button onclick="createFolder()">New Folder</button>
+          <button onclick="deleteSelected()">Delete</button>
+        </div>
+        <div id="fileList"></div>
+      </div>
+    </div>
+    <div class="window" id="macpaintWindow">
+      <div class="window-header">
+        <div class="close-button" onclick="closeWindow('macpaintWindow')"></div>
+        <span class="window-title">MacPaint</span>
+      </div>
+      <div class="window-content">
+        <div class="toolbar">
+          <button onclick="savePaintImage()">Save</button>
+        </div>
+        <canvas id="paintCanvas" width="380" height="260"></canvas>
+      </div>
+    </div>
+    <div class="window" id="macwriteWindow">
+      <div class="window-header">
+        <div class="close-button" onclick="closeWindow('macwriteWindow')"></div>
+        <span class="window-title">MacWrite</span>
+      </div>
+      <div class="window-content">
+        <div class="toolbar">
+          <button onclick="saveWriteText()">Save</button>
+        </div>
+        <textarea id="writeTextarea" placeholder="Start typing here..."></textarea>
+      </div>
+    </div>
+    <div class="window" id="finderWindow">
+      <div class="window-header">
+        <div class="close-button" onclick="closeWindow('finderWindow')"></div>
+        <span class="window-title">Finder</span>
+      </div>
+      <div class="window-content">
+        <div id="finderFileList"></div>
+      </div>
+    </div>
+    <div class="window" id="blackjackWindow">
+      <div class="window-header">
+        <div class="close-button" onclick="closeWindow('blackjackWindow')"></div>
+        <span class="window-title">Blackjack</span>
+      </div>
+      <div class="window-content">
+        <div id="blackjackTable">
+          <div id="dealerHand" class="hand"></div>
+          <div id="playerHand" class="hand"></div>
+        </div>
+        <div class="toolbar">
+          <button onclick="hit()">Hit</button>
+          <button onclick="stand()">Stand</button>
+          <button onclick="newGame()">New Game</button>
+        </div>
+        <div id="gameStatus"></div>
+      </div>
+    </div>
+    <div class="window" id="macworkshopWindow">
+      <div class="window-header">
+        <div class="close-button" onclick="closeWindow('macworkshopWindow')"></div>
+        <span class="window-title">MacWorkshop</span>
+      </div>
+      <div class="window-content">
+        <div class="toolbar">
+          <button onclick="saveWorkshopFile()">Save</button>
+          <button onclick="loadWorkshopFile()">Load</button>
+          <select id="fileTypeSelect">
+            <option value="text">Text</option>
+            <option value="program">Program</option>
+            <option value="paint">Paint</option>
+          </select>
+        </div>
+        <textarea id="workshopTextarea" placeholder="Edit your file or program here..."></textarea>
+        <canvas id="workshopCanvas" width="380" height="260" style="display: none;"></canvas>
+      </div>
+    </div>
+    <div id="folderTooltip" class="folder-tooltip"></div>
+  </div>
+
+  <script>
+    let fileSystem = {
+      "System Folder": {},
+      "Empty Folder": {},
+      "Finder": "app",
+      "MacPaint": "app",
+      "MacWrite": "app",
+      "Blackjack": "app",
+      "MacWorkshop": "app"
+    };
+
+    let draggedItem = null;
+    let activeWindow = null;
+    let offset = { x: 0, y: 0 };
+
+    function updateFileList(elementId = 'fileList', currentFolder = fileSystem) {
+      const fileList = document.getElementById(elementId);
+      fileList.innerHTML = '';
+      for (const [name, content] of Object.entries(currentFolder)) {
+        const fileIcon = document.createElement('div');
+        fileIcon.className = 'file-icon';
+        fileIcon.draggable = true;
+        fileIcon.innerHTML = `
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='${content === 'app' ? 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6m-1 1.5L18.5 9H13V3.5' : content instanceof Object ? 'M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z' : 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6m-1 1.5L18.5 9H13V3.5M6 20V4h7v5h5v11H6z'}'/%3E%3C/svg%3E" alt="${name}">
+          ${name}
+        `;
+        fileIcon.onclick = () => openFile(name, currentFolder);
+        fileIcon.ondragstart = (e) => {
+          draggedItem = { name, content };
+          e.dataTransfer.setData('text/plain', name);
+          fileIcon.classList.add('dragging');
+        };
+        fileIcon.ondragend = () => {
+          fileIcon.classList.remove('dragging');
+        };
+        fileIcon.ondragover = (e) => {
+          e.preventDefault();
+        };
+        fileIcon.ondrop = (e) => {
+          e.preventDefault();
+          if (draggedItem && content instanceof Object) {
+            moveItem(draggedItem.name, name, currentFolder);
+            updateFileList(elementId, currentFolder);
+          }
+        };
+        if (content instanceof Object) {
+          fileIcon.onmouseover = (e) => showFolderContents(e, name, content);
+          fileIcon.onmouseout = hideFolderContents;
+        }
+        fileList.appendChild(fileIcon);
+      }
+    }
+
+    function showFolderContents(e, folderName, folderContent) {
+      const tooltip = document.getElementById('folderTooltip');
+      tooltip.innerHTML = `<strong>${folderName} contents:</strong><br>` +
+        Object.keys(folderContent).join('<br>');
+      tooltip.style.display = 'block';
+      tooltip.style.left = `${e.pageX + 10}px`;
+      tooltip.style.top = `${e.pageY + 10}px`;
+    }
+
+    function hideFolderContents() {
+      document.getElementById('folderTooltip').style.display = 'none';
+    }
+
+    function moveItem(itemName, targetFolder, currentFolder) {
+      if (currentFolder[targetFolder] instanceof Object && currentFolder[itemName]) {
+        currentFolder[targetFolder][itemName] = currentFolder[itemName];
+        delete currentFolder[itemName];
+      }
+    }
+
+    function openFile(name, currentFolder) {
+      if (currentFolder[name] === 'app') {
+        openWindow(name.toLowerCase() + 'Window');
+      } else if (currentFolder[name] instanceof Object) {
+        openFolder(name, currentFolder[name]);
+      } else {
+        alert('Opening file: ' + name + '\nContent: ' + currentFolder[name]);
+      }
+    }
+
+    function openFolder(folderName, folderContent) {
+      const folderWindow = document.createElement('div');
+      folderWindow.className = 'window';
+      folderWindow.id = `folder-${folderName}`;
+      folderWindow.innerHTML = `
+        <div class="window-header">
+          <div class="close-button" onclick="closeWindow('folder-${folderName}')"></div>
+          <span class="window-title">${folderName}</span>
+        </div>
+        <div class="window-content">
+          <div id="fileList-${folderName}"></div>
+        </div>
+      `;
+      document.querySelector('.screen').appendChild(folderWindow);
+      updateFileList(`fileList-${folderName}`, folderContent);
+      openWindow(`folder-${folderName}`);
+    }
+
+    function createFolder() {
+      const folderName = prompt('Enter folder name:');
+      if (folderName && !fileSystem[folderName]) {
+        fileSystem[folderName] = {};
+        updateFileList();
+        updateFileList('finderFileList');
+      }
+    }
+
+    function deleteSelected() {
+      const selected = prompt('Enter name of item to delete:');
+      if (selected && fileSystem[selected]) {
+        delete fileSystem[selected];
+        updateFileList();
+        updateFileList('finderFileList');
+      }
+    }
+
+    function savePaintImage() {
+      const canvas = document.getElementById('paintCanvas');
+      const imageName = prompt('Enter image name:');
+      if (imageName) {
+        fileSystem[imageName + '.paint'] = canvas.toDataURL();
+        updateFileList();
+        updateFileList('finderFileList');
+      }
+    }
+
+    function saveWriteText() {
+      const textarea = document.getElementById('writeTextarea');
+      const fileName = prompt('Enter file name:');
+      if (fileName) {
+        fileSystem[fileName + '.write'] = textarea.value;
+        updateFileList();
+        updateFileList('finderFileList');
+      }
+    }
+
+    function saveWorkshopFile() {
+      const fileType = document.getElementById('fileTypeSelect').value;
+      const fileName = prompt('Enter file name:');
+      if (fileName) {
+        if (fileType === 'paint') {
+          const canvas = document.getElementById('workshopCanvas');
+          fileSystem[fileName + '.paint'] = canvas.toDataURL();
+        } else {
+          const textarea = document.getElementById('workshopTextarea');
+          fileSystem[fileName + '.' + fileType] = textarea.value;
+        }
+        updateFileList();
+        updateFileList('finderFileList');
+      }
+    }
+
+    function loadWorkshopFile() {
+      const fileName = prompt('Enter file name to load:');
+      if (fileName && fileSystem[fileName]) {
+        const fileType = fileName.split('.').pop();
+        document.getElementById('fileTypeSelect').value = fileType;
+        if (fileType === 'paint') {
+          const canvas = document.getElementById('workshopCanvas');
+          const ctx = canvas.getContext('2d');
+          const img = new Image();
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0);
+          };
+          img.src = fileSystem[fileName];
+          canvas.style.display = 'block';
+          document.getElementById('workshopTextarea').style.display = 'none';
+        } else {
+          document.getElementById('workshopTextarea').value = fileSystem[fileName];
+          document.getElementById('workshopTextarea').style.display = 'block';
+          document.getElementById('workshopCanvas').style.display = 'none';
+        }
+      }
+    }
+
+    function openWindow(windowId) {
+      const window = document.getElementById(windowId);
+      window.style.display = 'block';
+      bringToFront(window);
+      if (windowId === 'macpaintWindow') {
+        initPaintCanvas('paintCanvas');
+      }
+      if (windowId === 'finderWindow') {
+        updateFileList('finderFileList');
+      }
+      if (windowId === 'blackjackWindow') {
+        newGame();
+      }
+      if (windowId === 'macworkshopWindow') {
+        initPaintCanvas('workshopCanvas');
+      }
+    }
+
+    function closeWindow(windowId) {
+      document.getElementById(windowId).style.display = 'none';
+    }
+
+    function bringToFront(window) {
+      const windows = document.querySelectorAll('.window');
+      let maxZIndex= 0;
+      windows.forEach(w => {
+        const zIndex = parseInt(w.style.zIndex) || 0;
+        maxZIndex = Math.max(maxZIndex, zIndex);
+      });
+      window.style.zIndex = maxZIndex + 1;
+    }
+
+    document.querySelector('.disk').addEventListener('click', () => {
+      openWindow('diskWindow');
+      updateFileList();
+    });
+
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const timeString = hours + ':'+ (minutes < 10 ? '0' + minutes : minutes);
+      document.getElementById('clock').textContent = timeString;
+    }
+
+    updateClock();
+    setInterval(updateClock, 60000);
+
+    function initPaintCanvas(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      canvas.addEventListener('mousedown', startDrawing);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', stopDrawing);
+      canvas.addEventListener('mouseout', stopDrawing);
+
+      function startDrawing(e) {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+      }
+
+      function draw(e) {
+        if (!isDrawing) return;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+      }
+
+      function stopDrawing() {
+        isDrawing = false;
+      }
+    }
+
+    function closeWelcomeScreen() {
+      document.getElementById('welcomeScreen').style.display = 'none';
+    }
+
+    // Blackjack game logic
+    let deck = [];
+    let playerHand = [];
+    let dealerHand = [];
+
+    function createDeck() {
+      const suits = ['♠', '♥', '♦', '♣'];
+      const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+      deck = [];
+      for (let suit of suits) {
+        for (let value of values) {
+          deck.push({ suit, value });
+        }
+      }
+    }
+
+    function shuffleDeck() {
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+    }
+
+    function dealCard() {
+      return deck.pop();
+    }
+
+    function calculateHandValue(hand) {
+      let value = 0;
+      let aceCount = 0;
+      for (let card of hand) {
+        if (card.value === 'A') {
+          aceCount++;
+          value += 11;
+        } else if (['K', 'Q', 'J'].includes(card.value)) {
+          value += 10;
+        } else {
+          value += parseInt(card.value);
+        }
+      }
+      while (value > 21 && aceCount > 0) {
+        value -= 10;
+        aceCount--;
+      }
+      return value;
+    }
+
+    function updateHandDisplay(hand, elementId) {
+      const handElement = document.getElementById(elementId);
+      handElement.innerHTML = '';
+      for (let card of hand) {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'card';
+        cardElement.textContent = `${card.value}${card.suit}`;
+        handElement.appendChild(cardElement);
+      }
+    }
+
+    function newGame() {
+      createDeck();
+      shuffleDeck();
+      playerHand = [dealCard(), dealCard()];
+      dealerHand = [dealCard(), dealCard()];
+      updateHandDisplay(playerHand, 'playerHand');
+      updateHandDisplay([dealerHand[0], {value: '?', suit: '?'}], 'dealerHand');
+      document.getElementById('gameStatus').textContent = '';
+    }
+
+    function hit() {
+      playerHand.push(dealCard());
+      updateHandDisplay(playerHand, 'playerHand');
+      const playerValue = calculateHandValue(playerHand);
+      if (playerValue > 21) {
+        document.getElementById('gameStatus').textContent = 'Bust! You lose.';
+        revealDealerHand();
+      }
+    }
+
+    function stand() {
+      revealDealerHand();
+      let dealerValue = calculateHandValue(dealerHand);
+      while (dealerValue < 17) {
+        dealerHand.push(dealCard());
+        dealerValue = calculateHandValue(dealerHand);
+      }
+      updateHandDisplay(dealerHand, 'dealerHand');
+      const playerValue = calculateHandValue(playerHand);
+      if (dealerValue > 21 || playerValue > dealerValue) {
+        document.getElementById('gameStatus').textContent = 'You win!';
+      } else if (dealerValue > playerValue) {
+        document.getElementById('gameStatus').textContent = 'Dealer wins.';
+      } else {
+        document.getElementById('gameStatus').textContent = 'It\'s a tie!';
+      }
+    }
+
+    function revealDealerHand() {
+      updateHandDisplay(dealerHand, 'dealerHand');
+    }
+
+    function showAbout() {
+      alert('Macintosh System 1.0\nDeveloped by Apple Computer, Inc.\nCopyright © 1984 Apple Computer, Inc.');
+    }
+
+    function showSpecialMenu() {
+      const specialMenu = document.createElement('div');
+      specialMenu.style.position = 'absolute';
+      specialMenu.style.top = '20px';
+      specialMenu.style.left = '200px';
+      specialMenu.style.backgroundColor = 'white';
+      specialMenu.style.border = '1px solid black';
+      specialMenu.style.padding = '5px';
+      specialMenu.style.zIndex = '1000';
+
+      const menuItems = ['Clean Up Desktop', 'Empty Trash', 'Erase Disk'];
+      menuItems.forEach(item => {
+        const menuItem = document.createElement('div');
+        menuItem.textContent = item;
+        menuItem.style.cursor = 'pointer';
+        menuItem.onclick = () => {
+          alert(`Performing action: ${item}`);
+          specialMenu.remove();
+        };
+        specialMenu.appendChild(menuItem);
+      });
+
+      document.body.appendChild(specialMenu);
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function closeMenu(e) {
+        if (!specialMenu.contains(e.target)) {
+          specialMenu.remove();
+          document.removeEventListener('click', closeMenu);
+        }
+      });
+    }
+
+    // Make windows draggable
+    const windows = document.querySelectorAll('.window');
+    windows.forEach(window => {
+      const header = window.querySelector('.window-header');
+      header.addEventListener('mousedown', (e) => {
+        activeWindow = window;
+        offset.x = e.clientX - window.offsetLeft;
+        offset.y = e.clientY - window.offsetTop;
+        bringToFront(window);
+      });
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (activeWindow) {
+        activeWindow.style.left = (e.clientX - offset.x) + 'px';
+        activeWindow.style.top = (e.clientY - offset.y) + 'px';
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      activeWindow = null;
+    });
+
+    updateFileList();
+    updateFileList('finderFileList');
+  </script>
+</body>
+</html>
