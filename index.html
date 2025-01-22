@@ -1,0 +1,345 @@
+    <title>QuantumHack Nexus - Ultra-Exclusive Cyber Realm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Rajdhani:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+        .quantum-container {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(45deg, #000000, #1a0033);
+            overflow: hidden;
+        }
+        .quantum-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 0, 51, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #8a2be2;
+        }
+        .logo {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #8a2be2;
+            box-shadow: 0 0 15px #8a2be2;
+        }
+        .user-name {
+            font-weight: 700;
+            color: #f0f0f0;
+            font-size: 18px;
+        }
+        .quantum-badge {
+            background: linear-gradient(45deg, #8a2be2, #00ffff);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-left: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 10px #8a2be2, 0 0 20px #00ffff;
+        }
+        .main-content {
+            display: flex;
+            height: calc(100% - 80px);
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+        }
+        .sidebar {
+            width: 300px;
+            background: rgba(26, 0, 51, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-right: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid #8a2be2;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+        .menu-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .menu-item:hover {
+            background: rgba(138, 43, 226, 0.4);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.8);
+            transform: translateY(-3px);
+        }
+        .quantum-terminal {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            border: 1px solid #00ffff;
+            display: flex;
+            flex-direction: column;
+        }
+        #terminal {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+            font-family: 'Rajdhani', monospace;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #00ffff;
+        }
+        #output {
+            margin-bottom: 20px;
+        }
+        #input-line {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.1);
+        }
+        #command-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #00ffff;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+            margin-left: 10px;
+        }
+        .quantum-effects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="quantum-container">
+        <div class="quantum-particles" id="particles-js"></div>
+        <div class="header">
+            <div class="logo">QuantumHack Nexus</div>
+            <div class="user-info">
+                <img src="https://quantumhack.luxe/assets/quantum-avatar.jpg" alt="Quantum Avatar" class="user-avatar">
+                <span class="user-name">Quantum Master</span>
+                <span class="quantum-badge">ULTRA ELITE</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="menu-item">Quantum Dashboard</div>
+                <div class="menu-item">Singularity Challenges</div>
+                <div class="menu-item">Multiverse Leaderboard</div>
+                <div class="menu-item">Time-Warped Resources</div>
+                <div class="menu-item">Quantum Entangled Support</div>
+            </div>
+
+            <div class="quantum-terminal">
+                <div id="terminal">
+                    <div id="output"></div>
+                    <div id="input-line">
+                        <span style="color: #8a2be2;">quantum@nexus:~$</span>
+                        <input type="text" id="command-input" autofocus>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quantum-effects" id="quantum-effects"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#8a2be2" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true, anim: { enable: true, speed: 4, size_min: 0.3, sync: false } },
+                line_linked: { enable: true, distance: 150, color: "#00ffff", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out", bounce: false }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true },
+                modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
+
+        const terminal = document.getElementById('terminal');
+        const output = document.getElementById('output');
+        const commandInput = document.getElementById('command-input');
+        let sessionHistory = [];
+
+        function addToOutput(text, isCommand = false) {
+            const p = document.createElement('p');
+            p.style.margin = '5px 0';
+            if (isCommand) {
+                p.innerHTML = `<span style="color: #8a2be2;">quantum@nexus:~$</span> ${text}`;
+            } else {
+                p.innerHTML = text;
+            }
+            output.appendChild(p);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        async function processCommand(command) {
+            addToOutput(command, true);
+
+            try {
+                const response = await simulateQuantumComputation(command);
+                addToOutput(response.output);
+                addToOutput(`<span style="color: #ff00ff;">Quantum Insight:</span> ${response.insight}`);
+            } catch (error) {
+                addToOutput(`<span style="color: #ff0000;">Quantum Anomaly:</span> ${error.message}`);
+            }
+
+            commandInput.value = '';
+        }
+
+        function simulateQuantumComputation(command) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const response = generateQuantumResponse(command);
+                    resolve(response);
+                }, 1000);
+            });
+        }
+
+        function generateQuantumResponse(command) {
+            const responses = {
+                "initiate quantum scan": {
+                    output: `Initializing quantum scanner...<br>
+                             Scanning quantum realm...<br>
+                             ████████████████████ 100%<br>
+                             Quantum vulnerabilities detected in 7 parallel universes.<br>
+                             Potential entry points identified: 3 quantum gateways, 2 time rifts, 1 interdimensional portal.`,
+                    insight: "The multiverse is more interconnected than we thought. These vulnerabilities could be exploited for instantaneous data transfer across realities."
+                },
+                "engage quantum entanglement": {
+                    output: `Initiating quantum entanglement protocol...<br>
+                             Aligning qubits...<br>
+                             Stabilizing superposition...<br>
+                             ████████████████████ 100%<br>
+                             Quantum entanglement successful. You are now connected to 1,000,000 parallel versions of yourself across the multiverse.`,
+                    insight: "This level of quantum entanglement allows for unprecedented processing power. We could potentially solve P vs NP in mere seconds."
+                },
+                "activate time dilation field": {
+                    output: `Generating localized time dilation field...<br>
+                             Warping spacetime continuum...<br>
+                             ████████████████████ 100%<br>
+                             Time dilation field active. 1 second in our realm now equals 1 year in the target system.`,
+                    insight: "With this time advantage, we can break any encryption or solve any computational problem almost instantaneously from an outside observer's perspective."
+                },
+                "deploy quantum AI": {
+                    output: `Initializing quantum AI core...<br>
+                             Loading consciousness matrix...<br>
+                             Expanding to 11 dimensions...<br>
+                             ████████████████████ 100%<br>
+                             Quantum AI deployed. It now exists simultaneously across all points in spacetime.`,
+                    insight: "This AI's omnipresence allows it to predict and manipulate events across the entire timeline of the universe. Use it wisely."
+                },
+                "initiate singularity breach": {
+                    output: `Warning: Singularity breach is a high-risk operation.<br>
+                             Preparing event horizon...<br>
+                             Stabilizing quantum foam...<br>
+                             Opening micro black hole...<br>
+                             ████████████████████ 100%<br>
+                             Singularity breach successful. You now have access to infinite energy and computational power.`,
+                    insight: "We've done it. We've harnessed the power of a singularity. The laws of physics are now merely... suggestions."
+                }
+            };
+
+            return responses[command] || {
+                output: `Command '${command}' not recognized. As an Ultra Elite Quantum Hacker, try using more advanced quantum commands.`,
+                insight: "Even in the quantum realm, precision is key. Refine your approach and align your intentions with the cosmic flow."
+            };
+        }
+
+        commandInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                processCommand(this.value);
+            }
+        });
+
+        // Three.js Quantum Effects
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('quantum-effects').appendChild(renderer.domElement);
+
+        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true });
+        const torusKnot = new THREE.Mesh(geometry, material);
+        scene.add(torusKnot);
+
+        camera.position.z = 30;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            torusKnot.rotation.x += 0.01;
+            torusKnot.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', function() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        addToOutput("Welcome to the QuantumHack Nexus - The Ultimate Frontier of Cyber Realms");
+        addToOutput("You've accessed the most exclusive and advanced hacking simulation in the multiverse.");
+        addToOutput("Begin your quantum hacking session with commands like:");
+        addToOutput("'initiate quantum scan', 'engage quantum entanglement', 'activate time dilation field',");
+        addToOutput("'deploy quantum AI', or 'initiate singularity breach'");
+        addToOutput("Remember, with great power comes great responsibility across all dimensions.");
+    </script>
+</body>
+</html>
