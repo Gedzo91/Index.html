@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera Duty - Game</title>
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+  <div class="chapter-title">Chapter 1: The Abandoned Camera's</div>
+  <div class="loading">
+    <h2>Loading Game...</h2>
+    <div class="loading-progress">
+      <div class="loading-bar"></div>
+    </div>
+  </div>
+
+  <div class="game-container" style="display: none;">
+    <div class="status-bar">
+      <span class="anomaly-level">Anomaly Level: None</span>
+      <span class="time">00:00</span>
+    </div>
+
+    <div class="game-layout">
+      <div class="camera-grid">
+        <div class="camera-view main-view">
+          <div class="camera-feed"></div>
+          <div class="camera-overlay">
+            <div class="camera-info">
+              <span class="camera-number">CAM 01</span>
+              <span class="recording-dot">●</span>
+              <span class="location-name">Loading...</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="camera-thumbnails">
+          <div class="thumbnail" data-cam="1">
+            <div class="thumb-feed"></div>
+            <span>CAM 01</span>
+          </div>
+          <div class="thumbnail" data-cam="2">
+            <div class="thumb-feed"></div>
+            <span>CAM 02</span>
+          </div>
+          <div class="thumbnail" data-cam="3">
+            <div class="thumb-feed"></div>
+            <span>CAM 03</span>
+          </div>
+          <div class="thumbnail" data-cam="4">
+            <div class="thumb-feed"></div>
+            <span>CAM 04</span>
+          </div>
+          <div class="thumbnail" data-cam="5">
+            <div class="thumb-feed"></div>
+            <span>CAM 05</span>
+          </div>
+          <div class="thumbnail" data-cam="6">
+            <div class="thumb-feed"></div>
+            <span>CAM 06</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="camera-buttons">
+          <button class="cam-btn" data-cam="1">1</button>
+          <button class="cam-btn" data-cam="2">2</button>
+          <button class="cam-btn" data-cam="3">3</button>
+          <button class="cam-btn" data-cam="4">4</button>
+          <button class="cam-btn" data-cam="5">5</button>
+          <button class="cam-btn" data-cam="6">6</button>
+        </div>
+        <button class="report-btn">REPORT [SPACE]</button>
+      </div>
+    </div>
+
+    <div class="report-menu" style="display: none;">
+      <h2>Report Anomaly</h2>
+      <div class="report-options">
+        <select class="anomaly-type">
+          <option value="">Select Anomaly Type</option>
+          <option value="imagery">Imagery</option>
+          <option value="displacement">Displacement</option>
+          <option value="mimic">Mimic</option>
+          <option value="flawed">Flawed</option>
+          <option value="pure-form">Pure Form</option>
+          <option value="preacher">Preacher</option>
+          <option value="electrical">Electrical</option>
+          <option value="tulpa">Tulpa</option>
+          <option value="corpse">Corpse</option>
+          <option value="unknown">Unknown</option>
+        </select>
+        <button class="submit-report">Submit Report</button>
+        <button class="cancel-report">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pause-menu" style="display: none;">
+    <h2>PAUSED</h2>
+    <button class="resume-btn">Resume</button>
+    <button class="quit-btn">Quit to Menu</button>
+  </div>
+
+  <div class="mobile-controls">
+    <div class="mobile-cam-grid">
+      <button class="mobile-cam-btn" data-cam="1">1</button>
+      <button class="mobile-cam-btn" data-cam="2">2</button>
+      <button class="mobile-cam-btn" data-cam="3">3</button>
+      <button class="mobile-cam-btn" data-cam="4">4</button>
+      <button class="mobile-cam-btn" data-cam="5">5</button>
+      <button class="mobile-cam-btn" data-cam="6">6</button>
+    </div>
+    <button class="mobile-action-btn report-btn">REPORT</button>
+    <button class="mobile-action-btn pause-btn">PAUSE</button>
+  </div>
+
+  <script src="game.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera Duty</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" type="module" defer></script>
+</head>
+<body>
+  <div class="menu-container">
+    <div class="chapter-title">Chapter 1: The Abandoned Camera's</div>
+    <h1 class="game-title">Camera Duty</h1>
+    <div class="menu-buttons">
+      <button class="menu-btn" id="startBtn">Start</button>
+      <button class="menu-btn" id="settingsBtn">Settings</button>
+      <button class="menu-btn" id="mapsBtn">Maps</button>
+      <button class="menu-btn" id="instructionsBtn">Instructions</button>
+      <button class="menu-btn" id="anomalyBtn">Anomaly List</button>
+    </div>
+    
+    <div class="static-overlay"></div>
+    <div class="crt-lines"></div>
+  </div>
+
+  <!-- Anomaly List Modal -->
+  <div class="modal-overlay"></div>
+  <div class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Anomaly List</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="anomaly-list">
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Imagery</h3>
+          <p class="anomaly-description">Anomalies from paintings, artwork or just stuff appearing on walls</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Displacement</h3>
+          <p class="anomaly-description">Object changing location</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Mimic</h3>
+          <p class="anomaly-description">Objects that were multiplied</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Flawed</h3>
+          <p class="anomaly-description">Distorted human or person</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Pure Form</h3>
+          <p class="anomaly-description">Shadow that's all dark and has white eyes</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Preacher</h3>
+          <p class="anomaly-description">Clogged creature with constant whispering noises</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Electrical</h3>
+          <p class="anomaly-description">Objects like Computers, Tablets, Phones and TV's</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Tulpa</h3>
+          <p class="anomaly-description">Only to be seen in mirrors</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Corpse</h3>
+          <p class="anomaly-description">Dead bodies</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Unknown</h3>
+          <p class="anomaly-description">Cannot be classified as anything on this list</p>
+        </div>
+        <div class="anomaly-item">
+          <h3 class="anomaly-name">Note</h3>
+          <p class="anomaly-description">Camera turning black for a second is not Electrical - it means an Anomaly has appeared in the room.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instructions Modal -->
+  <div class="instructions-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Instructions</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="instructions-content">
+        <div class="instruction-section">
+          <h3>Overview</h3>
+          <p>Your job is to monitor security cameras and report any anomalies you observe. Stay vigilant and report anything suspicious!</p>
+        </div>
+        
+        <div class="instruction-section">
+          <h3>Controls</h3>
+          <p>Use <span class="key-binding">1-9</span> to switch between cameras</p>
+          <p>Press <span class="key-binding">Space</span> to open the report menu</p>
+          <p>Use <span class="key-binding">ESC</span> to pause the game</p>
+        </div>
+        
+        <div class="instruction-section">
+          <h3>Reporting Anomalies</h3>
+          <p>1. When you notice something unusual, open the report menu</p>
+          <p>2. Select the camera where you spotted the anomaly</p>
+          <p>3. Choose the correct type of anomaly from the list</p>
+          <p>4. Submit your report</p>
+        </div>
+        
+        <div class="instruction-section">
+          <h3>Tips</h3>
+          <p>- Pay attention to the initial state of each room</p>
+          <p>- Watch for sudden camera blackouts</p>
+          <p>- Keep track of object positions</p>
+          <p>- Check mirrors regularly</p>
+          <p>- Monitor any screens or electronic devices</p>
+        </div>
+        
+        <div class="instruction-section">
+          <h3>Warning</h3>
+          <p>False reports will reduce your performance score. Make sure you're certain before submitting a report.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Maps Modal -->
+  <div class="maps-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Maps</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="maps-header-buttons">
+        <button class="maps-header-btn active" data-section="chapter1">Chapter 1</button>
+        <button class="maps-header-btn" data-section="chapter2">Chapter 2</button>
+      </div>
+      
+      <div class="chapter-subtitle">Chapter 1: The Abandoned Camera's</div>
+      
+      <!-- Chapter 1 Maps Section -->
+      <div class="maps-section active" id="chapter1-maps">
+        <div class="maps-grid">
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg home-svg">
+                <rect x="50" y="50" width="100" height="80" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <path d="M100 30 L50 50 L150 50 Z" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="85" y="90" width="30" height="40" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="60" y="60" width="20" height="20" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="120" y="60" width="20" height="20" fill="none" stroke="#00ff00" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">Home</h3>
+            <p class="map-description">A family went on vacation, but their neighbors reported hearing strange noises from the empty house. Your duty is to monitor and report any anomalies that occur within.</p>
+          </div>
+          
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg mall-svg">
+                <rect x="20" y="20" width="160" height="110" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="40" y="40" width="30" height="30" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="130" y="40" width="30" height="30" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <path d="M20 75 L180 75" stroke="#00ff00" stroke-width="2"/>
+                <rect x="85" y="85" width="30" height="30" fill="none" stroke="#00ff00" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">Mall</h3>
+            <p class="map-description">An abandoned mall from 2012 where passersby regularly report unusual sightings. While no one dares to explore inside, the security cameras remain operational. Monitor and report any anomalies you detect.</p>
+          </div>
+          
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg hotel-svg">
+                <rect x="30" y="20" width="140" height="110" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <line x1="100" y1="20" x2="100" y2="130" stroke="#00ff00" stroke-width="2"/>
+                <rect x="45" y="35" width="20" height="25" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="45" y="85" width="20" height="25" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="135" y="35" width="20" height="25" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="135" y="85" width="20" height="25" fill="none" stroke="#00ff00" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">Hotel</h3>
+            <p class="map-description">Sealed off after the mysterious disappearance of 5 people, this hotel is believed to be haunted by various anomalies. While the building remains off-limits, you must monitor the security feeds and report any supernatural activity.</p>
+          </div>
+
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg city-svg">
+                <rect x="30" y="20" width="40" height="110" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="80" y="40" width="40" height="90" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="130" y="10" width="40" height="120" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <line x1="0" y1="130" x2="200" y2="130" stroke="#00ff00" stroke-width="2"/>
+                <path d="M10 130 C50 90 150 90 190 130" stroke="#00ff00" fill="none" stroke-width="2"/>
+                <rect x="60" y="70" width="15" height="15" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="140" y="50" width="15" height="15" fill="none" stroke="#00ff00" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">City</h3>
+            <p class="map-description">An entire city district has been experiencing unexplainable events. Access to various security cameras throughout the area allows you to investigate the phenomena across different urban locations.</p>
+          </div>
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg forsale-svg">
+                <rect x="40" y="40" width="120" height="90" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <path d="M40 40 L100 10 L160 40" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="70" y="90" width="25" height="40" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="120" y="60" width="20" height="20" fill="none" stroke="#00ff00" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">For Sale House</h3>
+            <p class="map-description">A seemingly normal house for sale has been experiencing supernatural events during viewings. Monitor the security system to document any unusual activity.</p>
+          </div>
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg resort-svg">
+                <rect x="20" y="20" width="160" height="110" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <path d="M100 20 L20 70 L180 70 Z" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="40" y="80" width="30" height="30" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="130" y="80" width="30" height="30" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <path d="M20 130 C60 110 140 110 180 130" stroke="#00ff00" fill="none" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">Forest Resort</h3>
+            <p class="map-description">A luxurious resort deep in the woods that closed mysteriously after reports of strange occurrences. Your task will be to monitor its abandoned halls and grounds.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chapter 2 Maps Section -->
+      <div class="maps-section" id="chapter2-maps">
+        <div class="maps-grid">
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg train-svg">
+                <rect x="20" y="40" width="160" height="70" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="30" y="50" width="30" height="50" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="70" y="50" width="30" height="50" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="110" y="50" width="30" height="50" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="150" y="50" width="20" height="50" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <circle cx="40" cy="120" r="10" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <circle cx="160" cy="120" r="10" fill="none" stroke="#00ff00" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">Train <span class="incoming-badge">Chapter 2</span></h3>
+            <p class="map-description">A haunted train that continues its endless journey, carrying more than just passengers.</p>
+          </div>
+
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg museum-svg">
+                <path d="M20 40 L100 20 L180 40" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="30" y="40" width="140" height="90" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="50" y="60" width="30" height="70" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="120" y="60" width="30" height="70" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <circle cx="100" cy="30" r="10" fill="none" stroke="#00ff00" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">Museum <span class="incoming-badge">Chapter 2</span></h3>
+            <p class="map-description">Ancient artifacts have begun to wake, bringing their histories and curses to life.</p>
+          </div>
+
+          <div class="map-item">
+            <div class="map-preview">
+              <svg viewBox="0 0 200 150" class="map-svg beach-resort-svg">
+                <path d="M20 60 Q100 40 180 60" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <rect x="40" y="60" width="120" height="70" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <path d="M20 130 Q100 110 180 130" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <circle cx="160" cy="40" r="15" fill="none" stroke="#00ff00" stroke-width="2"/>
+                <path d="M30 90 L60 90 M80 90 L110 90 M130 90 L160 90" stroke="#00ff00" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 class="map-name">Beach Resort <span class="incoming-badge">Chapter 2</span></h3>
+            <p class="map-description">A tropical paradise where the tides bring in more than just waves.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="settings-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Settings</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="settings-content">
+        <div class="settings-section">
+          <h3 class="settings-title">Camera Settings</h3>
+          <div class="settings-options">
+            <div class="setting-item">
+              <label class="filter-label">Camera Filter:</label>
+              <div class="filter-buttons">
+                <button class="filter-btn" data-filter="color">Color</button>
+                <button class="filter-btn" data-filter="monochrome">Monochrome</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <h3 class="settings-title">Screen Mode</h3>
+          <div class="settings-options">
+            <div class="setting-item screen-mode">
+              <button class="fullscreen-toggle">Enter Fullscreen</button>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3 class="settings-title">Device Mode</h3>
+          <div class="settings-options">
+            <div class="setting-item">
+              <div class="device-buttons">
+                <button class="device-btn active" data-mode="keyboard">Keyboard Mode</button>
+                <button class="device-btn" data-mode="mobile">Mobile Mode</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
