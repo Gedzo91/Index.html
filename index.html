@@ -1,0 +1,209 @@
+<style>
+    body {
+        background-color: #111;
+        color: #fff;
+        font-family: 'Courier New', monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        background-color: #1a1a1a;
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 800px;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    }
+
+    .greentext-output {
+        background-color: #001a00;
+        border: 1px solid #00ff00;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px 0;
+        white-space: pre-wrap;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .text-green {
+        color: #00ff00;
+    }
+
+    button {
+        background-color: #004d00;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #006700;
+    }
+
+    .loading {
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+
+    .topic-input {
+        background-color: #222;
+        border: 1px solid #00ff00;
+        color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        width: 100%;
+        margin-bottom: 10px;
+        font-family: 'Courier New', monospace;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    .slider-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background: #222;
+        outline: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #00ff00;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #00ff00;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+        background: #00cc00;
+    }
+
+    .slider-value {
+        color: #00ff00;
+        font-size: 14px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-green">AI Greentext Generator</h1>
+        <div class="input-group">
+            <input type="text" class="topic-input" id="topicInput" placeholder="Enter a topic (optional)">
+        </div>
+        <div class="input-group">
+            <div class="slider-container">
+                <input type="range" min="5" max="50" value="10" class="slider" id="lengthSlider">
+                <span class="slider-value" id="sliderValue">10 lines</span>
+            </div>
+        </div>
+        <button onclick="generateGreentext()" id="generateBtn">Generate Greentext</button>
+        <div class="greentext-output" id="output"></div>
+    </div>
+
+<script>
+const slider = document.getElementById('lengthSlider');
+const sliderValue = document.getElementById('sliderValue');
+
+slider.oninput = function() {
+    sliderValue.textContent = this.value + ' lines';
+}
+
+async function generateGreentext() {
+    const generateBtn = document.getElementById('generateBtn');
+    const output = document.getElementById('output');
+    const topicInput = document.getElementById('topicInput');
+    const lengthSlider = document.getElementById('lengthSlider');
+    
+    generateBtn.disabled = true;
+    output.innerHTML = '<span class="loading">Generating greentext...</span>';
+    
+    const lines = parseInt(lengthSlider.value);
+    
+    try {
+        const response = await fetch('/api/ai_completion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                prompt: `Generate a funny 4chan-style greentext story. If a topic is provided, incorporate it into the story. The story should be amusing and unexpected, formatted with each line starting with ">". Keep it appropriate for general audiences. The story should be exactly ${lines} lines long.
+
+                <typescript-interface>
+                interface Response {
+                    greentext: string;
+                }
+                </typescript-interface>
+                
+                <example>
+                {
+                    "greentext": ">be me\n>23 year old programming student\n>trying to debug code at 3am\n>computer keeps giving weird errors\n>realize I've been trying to debug a notepad file for 2 hours\n>mfw"
+                }
+                </example>`,
+                data: topicInput.value || "random"
+            }),
+        });
+        
+        const data = await response.json();
+        
+        // Format the greentext with proper styling
+        const formattedText = data.greentext
+            .split('\n')
+            .map(line => `<span class="text-green">${line}</span>`)
+            .join('<br>');
+            
+        output.innerHTML = formattedText;
+    } catch (error) {
+        output.innerHTML = '<span style="color: red;">Error generating greentext. Please try again.</span>';
+        console.error('Error:', error);
+    } finally {
+        generateBtn.disabled = false;
+    }
+}
+
+// Allow Enter key to trigger generation
+document.getElementById('topicInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        generateGreentext();
+    }
+});
+</script>
+</body></html>
