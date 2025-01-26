@@ -1,0 +1,612 @@
+```html
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebSim.AI - God Developer Edition</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;700&family=Orbitron:wght@400;700&display=swap');
+
+  :root {
+    --primary-color: #00FFFF;
+    --secondary-color: #FF00FF;
+    --background-color: #111111;
+    --text-color: #FFFFFF;
+    --accent-color: #FF4500;
+    --divine-glow: 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #FF00FF, 0 0 40px #FF4500;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Fira Code', monospace;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow: hidden;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+
+  .sidebar {
+    width: 250px;
+    background-color: #1E1E1E;
+    padding: 1rem;
+    overflow-y: auto;
+    border-right: 1px solid var(--primary-color);
+    box-shadow: 2px 0 10px rgba(0, 255, 255, 0.3);
+  }
+
+  .sidebar h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  #devTools {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #devTools li {
+    margin-bottom: 0.5rem;
+  }
+
+  #devTools button {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  #devTools button:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+  }
+
+  .main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--background-color);
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 0 20px var(--primary-color);
+  }
+
+  h1, h2, h3 {
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: var(--divine-glow);
+  }
+
+  .divine-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .divine-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .divine-input {
+    display: flex;
+    padding: 1rem;
+    background-color: #1E1E1E;
+    border-top: 2px solid var(--accent-color);
+  }
+
+  .divine-input input {
+    flex-grow: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    font-family: 'Fira Code', monospace;
+  }
+
+  .divine-input button {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px var(--accent-color);
+  }
+
+  .divine-input button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px var(--accent-color);
+  }
+
+  .output {
+    background-color: rgba(50, 50, 50, 0.8);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--primary-color);
+    font-family: 'Fira Code', monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .context-menu {
+    display: none;
+    position: fixed;
+    background-color: #2A2A2A;
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+    z-index: 1000;
+  }
+
+  .context-menu ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .context-menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .context-menu li:hover {
+    background-color: var(--accent-color);
+  }
+
+  #backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .code-preview {
+    background-color: #1E1E1E;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-family: 'Fira Code', monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .code-preview h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .code-preview code {
+    display: block;
+    color: #D4D4D4;
+  }
+
+  .developer-mode {
+    /* Existing styles */
+  }
+
+  .user-mode {
+    --primary-color: #9B30FF;
+    --secondary-color: #7B68EE;
+    --accent-color: #4B0082;
+  }
+
+  .user-mode .sidebar,
+  .user-mode .divine-input {
+    display: none;
+  }
+
+  .user-mode .main-content {
+    margin-left: 0;
+  }
+
+</style>
+</head>
+<body>
+  <canvas id="backgroundCanvas"></canvas>
+  
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Developer Tools</h2>
+      <ul id="devTools">
+        <li><button onclick="toggleInspector()">Toggle Inspector</button></li>
+        <li><button onclick="showPerformance()">Performance Metrics</button></li>
+        <li><button onclick="showAccessibility()">Accessibility Check</button></li>
+        <li><button onclick="runDebug()">Run Debug</button></li>
+        <li><button onclick="runVisualPreview()">Run Visual Preview</button></li>
+        <li><button onclick="openConsole()">Open Console</button></li>
+        <li><button onclick="toggleGridOverlay()">Toggle Grid Overlay</button></li>
+        <li><button onclick="generateDocumentation()">Generate Documentation</button></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1>WebSim.AI - God Developer Edition</h1>
+        <p>Forge Reality with Divine Code</p>
+      </header>
+
+      <div class="divine-container">
+        <div class="divine-body" id="divineBody">
+          <!-- Divine output will be dynamically added here -->
+        </div>
+        <div class="divine-input">
+          <input type="text" id="userInput" placeholder="Enter your divine command or NLP prompt...">
+          <button onclick="processInput()">⚡</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="contextMenu" class="context-menu">
+    <ul>
+      <li onclick="inspectElement()">Inspect Element</li>
+      <li onclick="editElement()">Edit Element</li>
+      <li onclick="deleteElement()">Delete Element</li>
+      <li onclick="addChildElement()">Add Child Element</li>
+      <li onclick="toggleDeveloperMode()">Toggle Developer Mode</li>
+      <li onclick="toggleUserMode()">Toggle User Mode</li>
+    </ul>
+  </div>
+
+  <script>
+    const divineBody = document.getElementById('divineBody');
+    const userInput = document.getElementById('userInput');
+    const contextMenu = document.getElementById('contextMenu');
+    let selectedElement = null;
+    let isDeveloperMode = true;
+
+    function addOutput(content) {
+      const outputDiv = document.createElement('div');
+      outputDiv.classList.add('output');
+      outputDiv.textContent = content;
+      divineBody.appendChild(outputDiv);
+      divineBody.scrollTop = divineBody.scrollHeight;
+    }
+
+    function runVisualPreview() {
+      addOutput("🖼️ Running visual preview...");
+      const previewWindow = window.open("", "Visual Preview", "width=800,height=600");
+      const previewContent = divineBody.innerHTML;
+      const previewHTML = `
+        <html>
+          <head>
+            <style>${document.querySelector('style').textContent}</style>
+          </head>
+          <body>
+            ${previewContent}
+          </body>
+        </html>
+      `;
+      previewWindow.document.write(previewHTML);
+      previewWindow.document.close();
+    }
+
+    function runDebug() {
+      addOutput("🔍 Running debug...");
+
+      const requiredElements = ['divineBody', 'userInput', 'contextMenu', 'backgroundCanvas'];
+      const missingElements = requiredElements.filter(id => !document.getElementById(id));
+
+      if (missingElements.length > 0) {
+        addOutput(`⚠️ Error: Missing elements: ${missingElements.join(', ')}`);
+      } else {
+        addOutput("✅ All required elements are present.");
+      }
+
+      try {
+        const listenerTest = new Event('keypress');
+        listenerTest.key = 'Enter';
+        userInput.dispatchEvent(listenerTest);
+        addOutput("✅ Event listeners are working correctly.");
+      } catch (error) {
+        addOutput(`⚠️ Error with event listeners: ${error.message}`);
+      }
+
+      const canvasCheck = document.getElementById('backgroundCanvas');
+      if (canvasCheck.getContext) {
+        addOutput("✅ Canvas is rendering correctly.");
+      } else {
+        addOutput("⚠️ Error: Canvas is not rendering.");
+      }
+
+      addOutput("🏁 Debug complete. Check the console for more details.");
+    }
+
+    function openConsole() {
+      addOutput("🖥️ Opening console...");
+      console.log("WebSim.AI Developer Console");
+      alert("Check your browser's developer console (F12 or Cmd+Option+I)");
+    }
+
+    function toggleGridOverlay() {
+      addOutput("📏 Toggling grid overlay...");
+      const overlay = document.getElementById('gridOverlay');
+      if (overlay) {
+        overlay.remove();
+      } else {
+        const gridOverlay = document.createElement('div');
+        gridOverlay.id = 'gridOverlay';
+        gridOverlay.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+                            linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+          background-size: 20px 20px;
+          pointer-events: none;
+          z-index: 9999;
+        `;
+        document.body.appendChild(gridOverlay);
+      }
+    }
+
+    function generateDocumentation() {
+      addOutput("📚 Generating documentation...");
+      const docWindow = window.open("", "Documentation", "width=800,height=600");
+      const elements = document.body.getElementsByTagName('*');
+      let documentation = '<h1>WebSim.AI - Page Documentation</h1>';
+      
+      for (let element of elements) {
+        if (element.id) {
+          documentation += `<h2>#${element.id}</h2>`;
+          documentation += `<p>Tag: ${element.tagName}</p>`;
+          documentation += `<p>Classes: ${element.className}</p>`;
+        }
+      }
+      
+      docWindow.document.write(documentation);
+      docWindow.document.close();
+    }
+
+    function processInput() {
+      try {
+        const input = userInput.value.trim();
+        if (input) {
+          addOutput(`🙏 ${input}`);
+          userInput.value = '';
+          if (isDeveloperMode) {
+            simulateDivineResponse(input);
+          } else {
+            simulateUserResponse(input);
+          }
+        }
+      } catch (error) {
+        addOutput(`⚠️ Error processing input: ${error.message}`);
+        console.error("Error in processInput:", error);
+      }
+    }
+
+    function simulateDivineResponse(userInput) {
+      setTimeout(() => {
+        try {
+          const response = generateHTMLCSS(userInput);
+          addOutput(`✨ Divine creation manifested:`);
+          const previewDiv = document.createElement('div');
+          previewDiv.classList.add('code-preview');
+          previewDiv.innerHTML = `<h3>HTML</h3><code>${escapeHTML(response.html)}</code>
+                                  <h3>CSS</h3><code>${escapeHTML(response.css)}</code>
+                                  <h3>JavaScript</h3><code>${escapeHTML(response.js)}</code>`;
+          divineBody.appendChild(previewDiv);
+          divineBody.scrollTop = divineBody.scrollHeight;
+        } catch (error) {
+          addOutput(`⚠️ Error generating response: ${error.message}`);
+          console.error("Error in simulateDivineResponse:", error);
+        }
+      }, 1000);
+    }
+
+    function simulateUserResponse(userInput) {
+      setTimeout(() => {
+        addOutput(`User input: ${userInput}`);
+        addOutput("This is a simulated user response. In user mode, we don't generate code.");
+      }, 1000);
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+
+    function generateHTMLCSS(prompt) {
+      const elements = ['div', 'p', 'h1', 'button', 'input'];
+      const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33F1', '#33FFF1'];
+      const element = elements[Math.floor(Math.random() * elements.length)];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      return {
+        html: `<${element} class="generated-element">${prompt}</${element}>`,
+        css: `.generated-element {
+  color: ${color};
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid ${color};
+}`,
+        js: `document.querySelector('.generated-element').addEventListener('click', function() {
+  console.log('Element clicked!');
+});`
+      };
+    }
+
+    userInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        processInput();
+      }
+    });
+
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      selectedElement = e.target;
+      contextMenu.style.display = 'block';
+      contextMenu.style.left = e.pageX + 'px';
+      contextMenu.style.top = e.pageY + 'px';
+    });
+
+    document.addEventListener('click', function() {
+      contextMenu.style.display = 'none';
+    });
+
+    function inspectElement() {
+      console.log('Inspecting:', selectedElement);
+      addOutput(`Inspecting element: ${selectedElement.tagName}`);
+    }
+
+    function editElement() {
+      const newContent = prompt('Enter new content for the element:', selectedElement.textContent);
+      if (newContent !== null) {
+        selectedElement.textContent = newContent;
+      }
+    }
+
+    function deleteElement() {
+      if (confirm('Are you sure you want to delete this element?')) {
+        selectedElement.remove();
+      }
+    }
+
+    function addChildElement() {
+      const childElement = document.createElement('div');
+      childElement.textContent = 'New Child Element';
+      selectedElement.appendChild(childElement);
+    }
+
+    function toggleInspector() {
+      console.log('Inspector toggled');
+      addOutput('Inspector tool toggled');
+    }
+
+    function showPerformance() {
+      console.log('Showing performance metrics');
+      addOutput('Performance metrics displayed');
+    }
+
+    function showAccessibility() {
+      console.log('Running accessibility check');
+      addOutput('Accessibility check completed');
+    }
+
+    function toggleDeveloperMode() {
+      isDeveloperMode = true;
+      addOutput("🛠️ Developer mode activated");
+      document.body.classList.add('developer-mode');
+      document.body.classList.remove('user-mode');
+    }
+
+    function toggleUserMode() {
+      isDeveloperMode = false;
+      addOutput("👤 User mode activated");
+      document.body.classList.add('user-mode');
+      document.body.classList.remove('developer-mode');
+    }
+
+    function init() {
+      try {
+        particlesArray = [];
+        for (let i = 0; i < 100; i++) {
+          particlesArray.push(new Particle());
+        }
+      } catch (error) {
+        console.error("Error in init:", error);
+      }
+    }
+
+    function animate() {
+      try {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+          particlesArray[i].update();
+          particlesArray[i].draw();
+          if (particlesArray[i].size <= 0.2) {
+            particlesArray.splice(i, 1);
+            i--;
+            particlesArray.push(new Particle());
+          }
+        }
+        requestAnimationFrame(animate);
+      } catch (error) {
+        console.error("Error in animate:", error);
+      }
+    }
+
+    // Interactive Background
+    const canvas = document.getElementById('backgroundCanvas');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 5 + 1;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+        this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.size > 0.2) this.size -= 0.1;
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    init();
+    animate();
+
+    // Initial divine greeting
+    addOutput("Greetings, Divine Developer. The cosmic IDE of WebSim.AI awaits your command. How shall we craft reality today?");
+  </script>
+</body>
+</html>
+```
