@@ -1,0 +1,3061 @@
+<style>
+body {
+    font-family: 'MS Sans Serif', sans-serif;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    background-image: url('/28299073-6968-48FC-B912-A767542C7529.jpeg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.desktop {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    box-shadow: inset 1px 0 #fff, inset -1px 0 #000;
+    justify-content: flex-start;
+}
+
+.start-btn {
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    padding: 4px 8px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.window {
+    position: absolute;
+    width: 300px;
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.title-bar {
+    background: #000080;
+    color: white;
+    padding: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn {
+    background: #c0c0c0;
+    border: 1px outset #fff;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.window-content {
+    padding: 10px;
+}
+
+.icon {
+    text-align: center;
+    margin: 8px;
+    cursor: pointer;
+    display: inline-block;
+    width: 60px;
+}
+
+.icon div {
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.4);
+    padding: 2px 4px;
+    border-radius: 2px;
+    margin-top: 4px;
+    font-size: 11px;
+    word-wrap: break-word;
+}
+
+.icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.file-explorer {
+    width: 400px;
+}
+
+.file-list {
+    background: white;
+    height: 200px;
+    padding: 5px;
+    border: inset 2px #fff;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    align-items: start;
+}
+
+.file-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.file-item:hover {
+    background: #000080;
+    color: white;
+}
+
+.file-item img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.browser-window {
+    width: 500px;
+}
+
+.browser-content {
+    background: white;
+    height: 300px;
+    padding: 10px;
+    border: inset 2px #fff;
+}
+
+.address-bar {
+    display: flex;
+    padding: 5px;
+    gap: 5px;
+}
+
+.address-bar input {
+    flex: 1;
+    border: inset 2px #fff;
+    padding: 2px;
+}
+
+.start-menu {
+    position: fixed;
+    bottom: 40px;
+    left: 0;
+    width: 200px;
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    display: none;
+    z-index: 9999;
+}
+
+.start-menu-item {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.start-menu-item:hover {
+    background: #000080;
+    color: white;
+}
+
+.start-menu-item svg {
+    width: 16px;
+    height: 16px;
+}
+
+.start-menu-item img {
+    width: 16px;
+    height: 16px;
+}
+
+.start-menu-divider {
+    height: 2px;
+    background: #808080;
+    margin: 4px 0;
+}
+
+@keyframes startup {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.desktop {
+    animation: startup 2s;
+}
+
+.bloat-cell {
+    user-select: none;
+    font-family: 'Arial', sans-serif;
+}
+
+.bloat-cell:active {
+    border: 2px inset #fff !important;
+}
+
+.bsod {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0000aa;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    padding: 50px;
+    box-sizing: border-box;
+    z-index: 10000;
+    animation: bsodFadeIn 0.5s;
+}
+
+@keyframes bsodFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.dos-screen {
+  font-family: 'Courier New', monospace;
+  background: #000;
+  color: #fff;
+  padding: 20px;
+  white-space: pre;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+.window-content iframe {
+    background: #000;
+}
+
+.language-btn {
+  position: static;
+  margin-left: auto;
+  z-index: 1;
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  padding: 4px 8px;
+  font-family: 'MS Sans Serif', sans-serif;
+}
+
+.language-menu {
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  z-index: 9999;
+  display: none;
+}
+
+.language-option {
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.language-option:hover {
+    background: #000080;
+    color: white;
+}
+
+.elevator-display {
+    font-family: 'Digital-7', monospace;
+    font-size: 24px;
+    background: #000;
+    color: #f00;
+    padding: 10px;
+    text-align: center;
+    margin: 10px;
+}
+
+.elevator-buttons {
+    display: flex;
+    padding: 10px;
+    gap: 5px;
+    align-items: center;
+}
+
+.elevator-input {
+    width: 60px;
+    margin-right: 5px;
+    padding: 2px;
+}
+
+.elevator-btn {
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.elevator-interior {
+    background: #a0a0a0;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.elevator-door {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: #c0c0c0;
+    transition: transform 0.5s;
+}
+
+.door-left {
+    left: 0;
+    transform-origin: left;
+}
+
+.door-right {
+    right: 0;
+    transform-origin: right;
+}
+
+.keygen-display {
+    font-family: 'Courier New', monospace;
+    background: #000;
+    color: #0f0;
+    padding: 10px;
+    text-align: center;
+    margin: 10px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px #0f0;
+}
+
+.keygen-button {
+    background: #000;
+    color: #0f0;
+    border: 1px solid #0f0;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    margin: 5px;
+}
+
+.keygen-button:hover {
+    background: #0f0;
+    color: #000;
+}
+
+.activation-display {
+    font-family: 'Courier New', monospace;
+    background: #000;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    margin: 10px;
+    letter-spacing: 2px;
+}
+
+.activation-button {
+    background: #800000;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.activation-button:hover {
+    background: #a00000;
+}
+
+.activation-input {
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 5px;
+    margin: 5px;
+    width: 250px;
+    font-family: 'Courier New', monospace;
+}
+</style>
+</head>
+<body>
+<audio id="startupSound" src="/windows-7-startup.mp3" preload="auto"></audio>
+<audio id="errorSound" src="/error_CDOxCYm.mp3" preload="auto"></audio>
+<div class="desktop">
+    <div class="icon" onclick="openMyDocuments()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#ffff00"/>
+            <rect width="16" height="16" x="4" y="4" fill="#c0c0c0"/>
+        </svg>
+        <div>Your Documents</div>
+    </div>
+    
+    <div class="icon" onclick="openBrowser()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#c0c0c0"/>
+            <circle cx="12" cy="12" r="6" fill="#000080"/>
+        </svg>
+        <div>Internet Investigator</div>
+    </div>
+
+    <div class="icon" onclick="openBloatSweepR()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#ff6b6b"/>
+            <path d="M4 4 L16 16 M4 16 L16 4" stroke="white" stroke-width="2"/>
+            <circle cx="12" cy="12" r="6" fill="none" stroke="white" stroke-width="2"/>
+        </svg>
+        <div>BloatSweepR</div>
+    </div>
+
+    <div class="icon" onclick="openDMail()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#4a90e2"/>
+            <path d="M3 6 L12 12 L21 6 M3 4 L21 4 L21 20 L3 20 Z" stroke="white" fill="none" stroke-width="2"/>
+        </svg>
+        <div>D-MAIL</div>
+    </div>
+
+    <div class="icon" onclick="openAvast()">
+        <img src="/icons8-avast-48.png" width="24" height="24">
+        <div>Avast Antivirus</div>
+    </div>
+
+    <div class="icon" onclick="openTXTEdit()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#ffffff"/>
+            <rect width="16" height="2" x="4" y="6" fill="#000000"/>
+            <rect width="16" height="2" x="4" y="12" fill="#000000"/>
+            <rect width="16" height="2" x="4" y="18" fill="#000000"/>
+        </svg>
+        <div>TXTEdit</div>
+    </div>
+
+    <div class="icon" onclick="openMediaPlayer()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#1e90ff"/>
+            <polygon points="8,6 16,12 8,18" fill="white"/>
+        </svg>
+        <div>Media Player</div>
+    </div>
+
+    <div class="icon" onclick="openShopping()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#4CAF50"/>
+            <path d="M4 6 L4 12 L16 12 L16 6 Z" fill="white"/>
+            <path d="M6 12 L4 20 L16 20 L14 12" fill="white"/>
+            <circle cx="8" cy="22" r="1" fill="white"/>
+            <circle cx="14" cy="22" r="1" fill="white"/>
+        </svg>
+        <div>Michealsoft Shopping</div>
+    </div>
+
+    <div class="icon" onclick="openDowngrader()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#ffa500"/>
+            <path d="M4 9 L12 15 L20 9" stroke="white" stroke-width="2" fill="none"/>
+            <rect width="10" height="2" x="6" y="17" fill="white"/>
+        </svg>
+        <div>Downgrader</div>
+    </div>
+
+    <div class="icon" onclick="openBetscape()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#800080"/>
+            <circle cx="12" cy="12" r="8" fill="#00ff00"/>
+            <path d="M8 12 L14 12 M12 8 L12 16" stroke="white" stroke-width="1"/>
+        </svg>
+        <div>Betscape 4.4.0</div>
+    </div>
+
+    <div class="icon" onclick="openVirtualBinbows()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#4B0082"/>
+            <rect width="8" height="8" x="6" y="6" fill="#87CEEB"/>
+            <rect width="8" height="8" x="10" y="10" fill="#87CEEB"/>
+            <path d="M6 18 L18 18 M12 6 L12 18" stroke="white" stroke-width="1"/>
+        </svg>
+        <div>Virtual Binbows</div>
+    </div>
+
+    <div class="icon" onclick="open3DPinball()">
+        <img src="/image.bmp" width="24" height="24" alt="3D Pinball">
+        <div>3D Pinball</div>
+    </div>
+
+    <div class="icon" onclick="openSomari()">
+        <img src="/AA3BC147-C70B-4EAA-9F6E-2530D2FABCC2-removebg.png" width="24" height="24" alt="Somari">
+        <div>Somari</div>
+    </div>
+
+    <div class="icon" onclick="openPaint()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#c0c0c0"/>
+            <path d="M4 4 L16 16 M4 16 L16 4" stroke="#000080" stroke-width="2"/>
+            <circle cx="12" cy="12" r="4" fill="#ff0000"/>
+        </svg>
+        <div>Paint</div>
+    </div>
+
+    <div class="icon" onclick="openCandyCrush()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="24" height="24" fill="#FF69B4"/>
+            <circle cx="6" cy="6" r="4" fill="#FF0000"/>
+            <circle cx="18" cy="6" r="4" fill="#00FF00"/>
+            <circle cx="6" cy="18" r="4" fill="#0000FF"/>
+            <circle cx="18" cy="18" r="4" fill="#FFFF00"/>
+        </svg>
+        <div>Candy Crush LQ</div>
+    </div>
+
+    <div class="icon" onclick="openElevator()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#808080"/>
+            <rect width="8" height="14" x="8" y="4" fill="#c0c0c0"/>
+            <path d="M10 8 L14 8 M10 14 L14 14 M10 10 L14 10" stroke="black" stroke-width="2"/>
+        </svg>
+        <div>Elevator Game</div>
+    </div>
+
+    <div class="icon" onclick="openKeygenerate()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#000000"/>
+            <path d="M4 12 L16 12 M12 8 L12 16" stroke="#00ff00" stroke-width="2"/>
+            <circle cx="12" cy="12" r="4" stroke="#00ff00" fill="none" stroke-width="2"/>
+        </svg>
+        <div>KEYGENERATE</div>
+    </div>
+
+    <div class="icon" onclick="openActivate()">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <rect width="20" height="20" x="2" y="2" fill="#800000"/>
+            <path d="M4 12 L16 12 M12 8 L12 16" stroke="#fff" stroke-width="2"/>
+            <path d="M3 6 L21 18 M3 18 L21 6" stroke="#fff" stroke-width="2" opacity="0.5"/>
+        </svg>
+        <div>Activate Binbows</div>
+    </div>
+
+    <div class="start-menu">
+        <div class="start-menu-item" onclick="openProgram('programs')">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#c0c0c0"/>
+                <rect width="12" height="2" x="2" y="2" fill="#000080"/>
+                <rect width="12" height="2" x="2" y="6" fill="#000080"/>
+                <rect width="12" height="2" x="2" y="10" fill="#000080"/>
+            </svg>
+            Programs
+        </div>
+        <div class="start-menu-item" onclick="openBloatSweepR()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#ff6b6b"/>
+                <path d="M2 2 L14 14 M2 14 L14 2" stroke="white" stroke-width="2"/>
+            </svg>
+            BloatSweepR
+        </div>
+        <div class="start-menu-item" onclick="openMyDocuments()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="14" height="14" x="1" y="1" fill="#ffff00"/>
+                <rect width="12" height="12" x="2" y="2" fill="#c0c0c0"/>
+            </svg>
+            Documents
+        </div>
+        <div class="start-menu-item" onclick="openSettings()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#c0c0c0"/>
+                <circle cx="8" cy="8" r="4" fill="#000080"/>
+            </svg>
+            Settings
+        </div>
+        <div class="start-menu-item" onclick="openDMail()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#4a90e2"/>
+                <path d="M1 3 L8 9 L15 3 M1 2 L15 2 L15 12 L1 12 Z" stroke="white" fill="none" stroke-width="1"/>
+            </svg>
+            D-MAIL
+        </div>
+        <div class="start-menu-item" onclick="openAvast()">
+            <img src="/icons8-avast-48.png" width="16" height="16">
+            Avast Antivirus
+        </div>
+        <div class="start-menu-item" onclick="openTXTEdit()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="14" height="14" x="1" y="1" fill="#ffffff"/>
+                <rect width="12" height="2" x="2" y="3" fill="#000000"/>
+                <rect width="12" height="2" x="2" y="6" fill="#000000"/>
+                <rect width="12" height="2" x="2" y="9" fill="#000000"/>
+            </svg>
+            TXTEdit
+        </div>
+        <div class="start-menu-item" onclick="openMediaPlayer()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#1e90ff"/>
+                <polygon points="5,3 13,8 5,13" fill="white"/>
+            </svg>
+            Media Player
+        </div>
+        <div class="start-menu-item" onclick="openShopping()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#4CAF50"/>
+                <path d="M2 3 L2 6 L12 6 L12 3 Z" fill="white"/>
+                <path d="M3 6 L2 12 L12 12 L11 6" fill="white"/>
+                <circle cx="5" cy="13" r="1" fill="white"/>
+                <circle cx="11" cy="13" r="1" fill="white"/>
+            </svg>
+            Michealsoft Shopping
+        </div>
+        <div class="start-menu-item" onclick="openDowngrader()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#ffa500"/>
+                <path d="M2 6 L8 10 L14 6" stroke="white" stroke-width="2" fill="none"/>
+                <rect width="8" height="2" x="4" y="11" fill="white"/>
+            </svg>
+            Downgrader
+        </div>
+        <div class="start-menu-item" onclick="openBetscape()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#800080"/>
+                <circle cx="8" cy="8" r="4" fill="#00ff00"/>
+                <path d="M5 8 L9 8 M8 5 L8 11" stroke="white" stroke-width="1"/>
+            </svg>
+            Betscape Navigator
+        </div>
+        <div class="start-menu-item" onclick="openVirtualBinbows()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#4B0082"/>
+                <rect width="4" height="4" x="3" y="3" fill="#87CEEB"/>
+                <rect width="4" height="4" x="9" y="9" fill="#87CEEB"/>
+                <path d="M3 12 L13 12 M8 3 L8 12" stroke="white" stroke-width="1"/>
+            </svg>
+            Virtual Binbows
+        </div>
+        <div class="start-menu-item" onclick="ejectPC()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#c0c0c0"/>
+                <path d="M2 8 L8 4 L14 8" stroke="#000" stroke-width="2"/>
+                <path d="M8 4 L8 12" stroke="#000" stroke-width="2"/>
+                <path d="M0 14 L14 14" stroke="#000" stroke-width="2"/>
+            </svg>
+            Eject PC
+        </div>
+        <div class="start-menu-item" onclick="shutdown()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#ff0000"/>
+                <rect width="6" height="6" x="5" y="5" fill="#ffffff"/>
+            </svg>
+            Shut Down...
+        </div>
+        <div class="start-menu-item" onclick="open3DPinball()">
+            <img src="/image.bmp" width="16" height="16" alt="3D Pinball">
+            3D Pinball
+        </div>
+        <div class="start-menu-item" onclick="openSomari()">
+            <img src="/AA3BC147-C70B-4EAA-9F6E-2530D2FABCC2-removebg.png" width="16" height="16" alt="Somari">
+            Somari
+        </div>
+        <div class="start-menu-item" onclick="openPaint()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#c0c0c0"/>
+                <path d="M2 2 L14 14 M2 14 L14 2" stroke="#000080" stroke-width="1"/>
+                <circle cx="8" cy="8" r="2" fill="#ff0000"/>
+            </svg>
+            Paint
+        </div>
+        <div class="start-menu-item" onclick="openCandyCrush()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#FF69B4"/>
+                <circle cx="3" cy="3" r="2" fill="#FF0000"/>
+                <circle cx="13" cy="3" r="2" fill="#00FF00"/>
+                <circle cx="3" cy="13" r="2" fill="#0000FF"/>
+                <circle cx="13" cy="13" r="2" fill="#FFFF00"/>
+            </svg>
+            Candy Crush LQ
+        </div>
+        <div class="start-menu-item" onclick="openElevator()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="14" height="14" x="1" y="1" fill="#808080"/>
+                <rect width="4" height="10" x="6" y="3" fill="#c0c0c0"/>
+                <path d="M7 5 L9 5 M7 8 L9 8 M7 11 L9 11" stroke="black" stroke-width="1"/>
+            </svg>
+            Elevator Game
+        </div>
+        <div class="start-menu-item" onclick="openKeygenerate()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="14" height="14" x="1" y="1" fill="#000000"/>
+                <path d="M2 8 L14 8 M8 4 L8 12" stroke="#00ff00" stroke-width="2"/>
+                <circle cx="8" cy="8" r="2" stroke="#00ff00" fill="none" stroke-width="1"/>
+            </svg>
+            KEYGENERATE
+        </div>
+        <div class="start-menu-item" onclick="openActivate()">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#800000"/>
+                <path d="M2 8 L14 8 M8 4 L8 12" stroke="#fff" stroke-width="1"/>
+                <path d="M1 3 L15 15 M1 15 L15 3" stroke="#fff" stroke-width="1" opacity="0.5"/>
+            </svg>
+            Activate Binbows
+        </div>
+        <div class="start-menu-divider"></div>
+    </div>
+
+    <div class="taskbar">
+        <button class="start-btn" id="startButton">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <rect width="16" height="16" fill="#008080"/>
+                <rect width="5" height="5" x="1" y="1" fill="#ff0000"/>
+                <rect width="5" height="5" x="10" y="1" fill="#00ff00"/>
+                <rect width="5" height="5" x="1" y="10" fill="#0000ff"/>
+                <rect width="5" height="5" x="10" y="10" fill="#ffff00"/>
+            </svg>
+            Start
+        </button>
+        <button class="language-btn" onclick="toggleLanguageMenu()">
+            <span id="currentLang">English</span>
+        </button>
+        <div class="language-menu" id="languageMenu">
+            <div class="language-option" onclick="changeLanguage('en')">English</div>
+            <div class="language-option" onclick="changeLanguage('ja')">&#x65e5;&#x672c;&#x8a9e;</div>
+            <div class="language-option" onclick="changeLanguage('pt')">Portugu&#xea;s</div>
+        </div>
+        <span id="taskbarTime" style="margin-left: auto; padding: 0 10px; border-left: 1px solid #808080; border-right: 1px solid #fff;">3:00 AM</span>
+    </div>
+</div>
+<script>
+function makeWindowDraggable(window) {
+  let isDragging = false;
+  let currentX;
+  let currentY;
+  let initialX;
+  let initialY;
+  window.querySelector('.title-bar').addEventListener('mousedown', e => {
+    isDragging = true;
+    initialX = e.clientX - window.offsetLeft;
+    initialY = e.clientY - window.offsetTop;
+    window.style.zIndex = getTopZIndex() + 1;
+  });
+  document.addEventListener('mousemove', e => {
+    if (isDragging) {
+      e.preventDefault();
+      currentX = e.clientX - initialX;
+      currentY = e.clientY - initialY;
+      window.style.left = currentX + 'px';
+      window.style.top = currentY + 'px';
+    }
+  });
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+}
+function getTopZIndex() {
+  return Math.max(...Array.from(document.querySelectorAll('.window')).map(w => parseInt(w.style.zIndex || 0)));
+}
+function openMyDocuments() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const explorer = document.createElement('div');
+  explorer.className = 'window file-explorer';
+  explorer.style.top = '100px';
+  explorer.style.left = '100px';
+  explorer.innerHTML = `
+        <div class="title-bar">
+            <span>Your Documents</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div class="address-bar" style="margin-bottom: 5px;">
+                <input type="text" value="C:\\Documents" style="width: 100%; padding: 2px;" readonly>
+            </div>
+            <div class="file-list">
+                <div class="file-item" ondblclick="fileError('totally_not_a_virus.exe')">
+                    <img src="/03A6A649-21A9-4C10-8861-69009BD37C0A-removebg-preview.png" alt="EXE">
+                    <span>totally_not_a_virus.exe</span>
+                </div>
+                <div class="file-item" ondblclick="fileError('free_money.bat')">
+                    <img src="/03A6A649-21A9-4C10-8861-69009BD37C0A-removebg-preview.png" alt="BAT">
+                    <span>free_money.bat</span>
+                </div>
+                <div class="file-item" ondblclick="fileError('homework.txt')">
+                    <img src="/03A6A649-21A9-4C10-8861-69009BD37C0A-removebg-preview.png" alt="TXT">
+                    <span>homework.txt</span>
+                </div>
+                <div class="file-item" ondblclick="fileError('secret_passwords.txt')">
+                    <img src="/03A6A649-21A9-4C10-8861-69009BD37C0A-removebg-preview.png" alt="TXT">
+                    <span>secret_passwords.txt</span>
+                </div>
+                <div class="file-item" ondblclick="fileError('definitely_not_bloatware.msi')">
+                    <img src="/03A6A649-21A9-4C10-8861-69009BD37C0A-removebg-preview.png" alt="MSI">
+                    <span>definitely_not_bloatware.msi</span>
+                </div>
+                <div class="file-item" ondblclick="fileError('system32.dll')">
+                    <img src="/03A6A649-21A9-4C10-8861-69009BD37C0A-removebg-preview.png" alt="DLL">
+                    <span>system32.dll</span>
+                </div>
+            </div>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(explorer);
+  makeWindowDraggable(explorer);
+  attachCloseHandler(explorer);
+}
+function openBrowser() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const browser = document.createElement('div');
+  browser.className = 'window browser-window';
+  browser.style.top = '150px';
+  browser.style.left = '150px';
+  browser.innerHTML = `
+        <div class="title-bar">
+            <span>Internet Investigator</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div class="address-bar">
+                <input type="text" value="https://www.example.com" />
+                <button onclick="browserError()">Go</button>
+            </div>
+            <div class="browser-content">
+                <p>Cannot connect to the internet.</p>
+                <p>Please check if:</p>
+                <ul>
+                    <li>Your dial-up modem is properly connected</li>
+                    <li>Nobody is using the phone</li>
+                    <li>You have paid your subscription to AOL</li>
+                </ul>
+            </div>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(browser);
+  makeWindowDraggable(browser);
+  attachCloseHandler(browser);
+}
+function browserError() {
+  const error = "Connection failed: Error 404 - Internet not found";
+  const errorWindow = createErrorWindow(error);
+  document.querySelector('.desktop').appendChild(errorWindow);
+  makeWindowDraggable(errorWindow);
+  attachCloseHandler(errorWindow);
+  const errorSound = document.getElementById('errorSound');
+  errorSound.currentTime = 0;
+  errorSound.play().catch(err => console.log("Error playing sound:", err));
+}
+function createErrorWindow(message) {
+  const errorWindow = document.createElement('div');
+  errorWindow.className = 'window';
+  errorWindow.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+  errorWindow.style.left = Math.random() * (window.innerWidth - 300) + 'px';
+  errorWindow.innerHTML = `
+        <div class="title-bar">
+            <span>System Error</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <p>${message}</p>
+            <button onclick="this.closest('.window').remove()">OK</button>
+        </div>
+    `;
+  const errorSound = document.getElementById('errorSound');
+  errorSound.currentTime = 0;
+  errorSound.play().catch(err => console.log("Error playing sound:", err));
+  return errorWindow;
+}
+const errorMessages = ["Error: System32 not found. Is this even Windows?", "Warning: Activation required. Please send $999 in gift cards", "Error: Task failed successfully", "Warning: Your copy of Binbows may not be genuine"];
+setInterval(() => {
+  if (Math.random() < 0.1) {
+    const error = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+    const errorWindow = createErrorWindow(error);
+    document.querySelector('.desktop').appendChild(errorWindow);
+    makeWindowDraggable(errorWindow);
+    attachCloseHandler(errorWindow);
+    const errorSound = document.getElementById('errorSound');
+    errorSound.currentTime = 0;
+    errorSound.play().catch(err => console.log("Error playing sound:", err));
+  }
+}, 5000);
+const startButton = document.getElementById('startButton');
+const startMenu = document.querySelector('.start-menu');
+let isStartMenuOpen = false;
+let konami = '';
+let konamiCode = 'binbows';
+document.addEventListener('keydown', e => {
+  konami += e.key.toLowerCase();
+  if (konami.length > konamiCode.length) {
+    konami = konami.substring(1);
+  }
+  if (konami === konamiCode && e.ctrlKey && e.altKey) {
+    showProductTeam();
+  }
+});
+startButton.addEventListener('click', () => {
+  isStartMenuOpen = !isStartMenuOpen;
+  startMenu.style.display = isStartMenuOpen ? 'block' : 'none';
+  startButton.style.border = isStartMenuOpen ? '2px inset #fff' : '2px outset #fff';
+});
+document.addEventListener('click', e => {
+  if (!startButton.contains(e.target) && !startMenu.contains(e.target)) {
+    isStartMenuOpen = false;
+    startMenu.style.display = 'none';
+    startButton.style.border = '2px outset #fff';
+  }
+});
+function openProgram(type) {
+  const error = createErrorWindow("Program access denied: Please purchase full version of Binbows");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+  startMenu.style.display = 'none';
+  const errorSound = document.getElementById('errorSound');
+  errorSound.currentTime = 0;
+  errorSound.play().catch(err => console.log("Error playing sound:", err));
+}
+function openSettings() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const settingsWindow = document.createElement('div');
+  settingsWindow.className = 'window';
+  settingsWindow.style.top = '150px';
+  settingsWindow.style.left = '150px';
+  settingsWindow.innerHTML = `
+        <div class="title-bar">
+            <span>Settings</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <p>System Information:</p>
+            <p>Binbows Version: 0.1 Beta</p>
+            <p>Available RAM: 640K (Should be enough)</p>
+            <p>CPU: 8088 @ 4.77 MHz</p>
+            <button onclick="this.closest('.window').remove()">OK</button>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(settingsWindow);
+  makeWindowDraggable(settingsWindow);
+  attachCloseHandler(settingsWindow);
+  startMenu.style.display = 'none';
+}
+function shutdown() {
+  const shutdownWindow = document.createElement('div');
+  shutdownWindow.className = 'window';
+  shutdownWindow.style.top = '50%';
+  shutdownWindow.style.left = '50%';
+  shutdownWindow.style.transform = 'translate(-50%, -50%)';
+  shutdownWindow.innerHTML = `
+        <div class="title-bar">
+            <span>Shut Down</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <p>It is now safe to turn off your computer</p>
+            <button onclick="location.reload()">Restart</button>
+            <button onclick="this.closest('.window').remove()">Cancel</button>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(shutdownWindow);
+  makeWindowDraggable(shutdownWindow);
+  attachCloseHandler(shutdownWindow);
+  startMenu.style.display = 'none';
+}
+function openBloatSweepR() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const bloatApp = document.createElement('div');
+  bloatApp.className = 'window';
+  bloatApp.style.width = '400px';
+  bloatApp.style.top = '120px';
+  bloatApp.style.left = '120px';
+  bloatApp.innerHTML = `
+        <div class="title-bar">
+            <span>BloatSweepR v1.0</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div style="margin-bottom: 10px">
+                <button onclick="initBloatGame(this.closest('.window-content'))">New Game</button>
+                <span>Bloatware Found: <span id="bloatCount">0</span></span>
+            </div>
+            <div id="bloatGrid" style="display: grid; grid-template-columns: repeat(9, 30px); gap: 1px; background: #808080; padding: 5px;">
+                ${Array(81).fill().map(() => `
+                    <div class="bloat-cell" style="width: 30px; height: 30px; background: #c0c0c0; border: 2px outset #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer;"></div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(bloatApp);
+  makeWindowDraggable(bloatApp);
+  attachCloseHandler(bloatApp);
+  initBloatGame(bloatApp.querySelector('.window-content'));
+}
+function initBloatGame(windowContent) {
+  const grid = windowContent.querySelector('#bloatGrid');
+  const cells = grid.querySelectorAll('.bloat-cell');
+  const bloatCount = windowContent.querySelector('#bloatCount');
+  let bloats = 10;
+  let revealed = 0;
+  cells.forEach(cell => {
+    cell.style.background = '#c0c0c0';
+    cell.style.border = '2px outset #fff';
+    cell.textContent = '';
+    cell.dataset.bloat = '0';
+    cell.dataset.revealed = 'false';
+  });
+  for (let i = 0; i < bloats; i++) {
+    let pos;
+    do {
+      pos = Math.floor(Math.random() * 81);
+    } while (cells[pos].dataset.bloat === '1');
+    cells[pos].dataset.bloat = '1';
+  }
+  cells.forEach((cell, index) => {
+    if (cell.dataset.bloat !== '1') {
+      let count = 0;
+      const row = Math.floor(index / 9);
+      const col = index % 9;
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          if (row + i >= 0 && row + i < 9 && col + j >= 0 && col + j < 9) {
+            const neighbor = cells[(row + i) * 9 + (col + j)];
+            if (neighbor.dataset.bloat === '1') count++;
+          }
+        }
+      }
+      cell.dataset.count = count;
+    }
+  });
+  cells.forEach((cell, index) => {
+    cell.onclick = e => {
+      if (cell.dataset.revealed === 'true') return;
+      if (cell.dataset.bloat === '1') {
+        cells.forEach(c => {
+          if (c.dataset.bloat === '1') {
+            c.style.background = '#ff0000';
+            c.textContent = '';
+          }
+        });
+        const errorSound = document.getElementById('errorSound');
+        errorSound.play().catch(err => console.log("Error playing sound:", err));
+        setTimeout(() => {
+          const bsod = document.createElement('div');
+          bsod.className = 'bsod';
+          bsod.innerHTML = `
+                A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) +
+                00010E36. The current application will be terminated.
+                <br><br>
+                * Press any key to terminate the current application
+                * Press CTRL+ALT+DEL to restart your computer. You will
+                lose any unsaved information in all applications.
+                <br><br>
+                Error: BLOATWARE_INFECTION_DETECTED<br>
+                Technical information:<br><br>
+                *** STOP: 0x0000000E (0xC000001D,0x00000000,0x00000000,0x00000000)<br>
+                <br>
+                Press any key to continue...
+            `;
+          document.body.appendChild(bsod);
+          bsod.onclick = () => {
+            location.reload();
+          };
+        }, 1000);
+      } else {
+        revealCell(cell, index);
+      }
+    };
+    cell.oncontextmenu = e => {
+      e.preventDefault();
+      if (cell.dataset.revealed === 'false') {
+        if (!cell.textContent) {
+          cell.textContent = '';
+          bloatCount.textContent = parseInt(bloatCount.textContent) + 1;
+        } else {
+          cell.textContent = '';
+          bloatCount.textContent = parseInt(bloatCount.textContent) - 1;
+        }
+      }
+    };
+  });
+  function revealCell(cell, index) {
+    if (cell.dataset.revealed === 'true') return;
+    cell.dataset.revealed = 'true';
+    cell.style.border = '1px solid #808080';
+    cell.style.background = '#c0c0c0';
+    if (cell.dataset.count > 0) {
+      cell.textContent = cell.dataset.count;
+      const colors = ['blue', 'green', 'red', 'purple', 'maroon', 'turquoise', 'black', 'gray'];
+      cell.style.color = colors[cell.dataset.count - 1];
+    } else {
+      const row = Math.floor(index / 9);
+      const col = index % 9;
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          if (row + i >= 0 && row + i < 9 && col + j >= 0 && col + j < 9) {
+            const neighbor = cells[(row + i) * 9 + (col + j)];
+            if (neighbor.dataset.revealed === 'false' && neighbor.dataset.bloat !== '1') {
+              revealCell(neighbor, (row + i) * 9 + (col + j));
+            }
+          }
+        }
+      }
+    }
+  }
+}
+function playStartupSound() {
+  const startupSound = document.getElementById('startupSound');
+  startupSound.volume = 1.0;
+  const playPromise = startupSound.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      console.log("Startup sound playing successfully");
+    }).catch(error => {
+      console.log("Playback prevented, waiting for user interaction:", error);
+      const clickHandler = () => {
+        startupSound.play().then(() => {
+          console.log("Startup sound played after user interaction");
+          document.removeEventListener('click', clickHandler);
+        }).catch(err => console.log("Playback failed even after interaction:", err));
+      };
+      document.addEventListener('click', clickHandler);
+    });
+  }
+}
+function updateTaskbarTime() {
+  const hours = [3, 5, 12];
+  const periods = ['AM', 'AM', 'PM'];
+  const timeDisplay = document.getElementById('taskbarTime');
+  let currentIndex = 0;
+
+  setInterval(() => {
+    const hour = hours[currentIndex];
+    const period = periods[currentIndex];
+    timeDisplay.textContent = `${hour}:00 ${period}`;
+    currentIndex = (currentIndex + 1) % hours.length;
+  }, 10000); // Change time every 10 seconds
+}
+document.addEventListener('DOMContentLoaded', () => {
+  playStartupSound();
+  updateTaskbarTime();
+});
+function ejectPC() {
+  startMenu.style.display = 'none';
+}
+function openDMail() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const dmail = document.createElement('div');
+  dmail.className = 'window';
+  dmail.style.width = '500px';
+  dmail.style.top = '100px';
+  dmail.style.left = '150px';
+  dmail.innerHTML = `
+    <div class="title-bar">
+      <span>D-MAIL v1.0</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="margin-bottom: 10px">
+        <button onclick="composeDMail()">New Message</button>
+        <button onclick="checkDMail()">Check Mail</button>
+      </div>
+      <div style="background: white; border: inset 2px #fff; padding: 10px; height: 300px; overflow-y: auto;">
+        <h3>Inbox</h3>
+        <div class="email-item" style="border-bottom: 1px solid #ccc; padding: 5px;">
+          <strong>Welcome to D-MAIL!</strong><br>
+          <small>From: system@dmail.com</small><br>
+          <small>Welcome to the future of electronic mail...</small>
+        </div>
+        <div class="email-item" style="border-bottom: 1px solid #ccc; padding: 5px;" onclick="openVirusEmail()">
+          <strong>LOVE-LETTER-FOR-YOU.TXT.vbs</strong><br>
+          <small>From: definitely_not_a_virus@sketchy.com</small><br>
+          <small>kindly check the attached LOVELETTER coming from me.</small>
+        </div>
+        <div class="email-item" style="border-bottom: 1px solid #ccc; padding: 5px;">
+          <strong>You've Got Money!</strong><br>
+          <small>From: prince@nigeria.com</small><br>
+          <small>I need your assistance with a bank transfer...</small>
+        </div>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(dmail);
+  makeWindowDraggable(dmail);
+  attachCloseHandler(dmail);
+}
+
+function composeDMail() {
+  const emailWindow = document.createElement('div');
+  emailWindow.className = 'window';
+  emailWindow.style.width = '500px';
+  emailWindow.style.top = '150px';
+  emailWindow.style.left = '150px';
+  emailWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Compose D-MAIL</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px;">
+        <div style="margin-bottom: 10px;">
+          <label>To:</label>
+          <input type="text" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 10px;">
+          <label>Subject:</label>
+          <input type="text" style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 10px;">
+          <textarea style="width: 100%; height: 200px;"></textarea>
+        </div>
+        <button onclick="sendDMail()">Send</button>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(emailWindow);
+  makeWindowDraggable(emailWindow);
+  attachCloseHandler(emailWindow);
+}
+
+function sendDMail() {
+  const error = createErrorWindow("Cannot send: Modem is making strange noises");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+
+function checkDMail() {
+  const emailWindow = document.createElement('div');
+  emailWindow.className = 'window';
+  emailWindow.style.width = '500px';
+  emailWindow.style.top = '150px';
+  emailWindow.style.left = '150px';
+  emailWindow.innerHTML = `
+    <div class="title-bar">
+      <span>D-MAIL Inbox</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px;">
+        <div style="background: white; border: inset 2px #fff; padding: 5px; height: 250px; overflow-y: auto;">
+          <h3>Inbox</h3>
+          <div class="email-item" style="border-bottom: 1px solid #ccc; padding: 5px;">
+            <strong>Welcome to D-MAIL!</strong><br>
+            <small>From: system@dmail.com</small><br>
+            <small>Welcome to the future of electronic mail...</small>
+          </div>
+          <div class="email-item" style="border-bottom: 1px solid #ccc; padding: 5px;" onclick="openVirusEmail()">
+            <strong>LOVE-LETTER-FOR-YOU.TXT.vbs</strong><br>
+            <small>From: definitely_not_a_virus@sketchy.com</small><br>
+            <small>kindly check the attached LOVELETTER coming from me.</small>
+          </div>
+          <div class="email-item" style="border-bottom: 1px solid #ccc; padding: 5px;">
+            <strong>You've Got Money!</strong><br>
+            <small>From: prince@nigeria.com</small><br>
+            <small>I need your assistance with a bank transfer...</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(emailWindow);
+  makeWindowDraggable(emailWindow);
+  attachCloseHandler(emailWindow);
+}
+
+function openVirusEmail() {
+  const virusWindow = document.createElement('div');
+  virusWindow.className = 'window';
+  virusWindow.style.width = '400px';
+  virusWindow.style.top = '150px';
+  virusWindow.style.left = '200px';
+  virusWindow.innerHTML = `
+        <div class="title-bar">
+            <span>LOVE-LETTER-FOR-YOU.TXT.vbs</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <p>Opening LOVE-LETTER-FOR-YOU.TXT.vbs...</p>
+            <div style="margin: 10px 0;">
+                <progress value="0" max="100" id="virusProgress" style="width: 100%"></progress>
+            </div>
+            <button onclick="this.closest('.window').remove()">Cancel</button>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(virusWindow);
+  makeWindowDraggable(virusWindow);
+  attachCloseHandler(virusWindow);
+  const progress = virusWindow.querySelector('#virusProgress');
+  let value = 0;
+  const interval = setInterval(() => {
+    value += 2;
+    progress.value = value;
+    if (value >= 100) {
+      clearInterval(interval);
+      systemInfected = true;
+      const error = createErrorWindow("System infected with ILOVEYOU virus!");
+      document.querySelector('.desktop').appendChild(error);
+      makeWindowDraggable(error);
+      attachCloseHandler(error);
+      const errorSound = document.getElementById('errorSound');
+      errorSound.currentTime = 0;
+      errorSound.play().catch(err => console.log("Error playing sound:", err));
+      virusWindow.remove();
+    }
+  }, 50);
+}
+let systemInfected = false;
+function openAvast() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  if (!avastInstallDate) {
+    avastInstallDate = new Date().toISOString();
+    localStorage.setItem('avastInstallDate', avastInstallDate);
+  }
+  const installDate = new Date(avastInstallDate);
+  const today = new Date();
+  const daysElapsed = Math.floor((today - installDate) / (1000 * 60 * 60 * 24));
+  const daysRemaining = Math.max(0, 30 - daysElapsed);
+  const avastWindow = document.createElement('div');
+  avastWindow.className = 'window';
+  avastWindow.style.width = '400px';
+  avastWindow.style.top = '120px';
+  avastWindow.style.left = '120px';
+  avastWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Avast Antivirus</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px; text-align: center;">
+        <img src="/icons8-avast-48.png" width="48" height="48">
+        <h3>${daysRemaining > 0 ? 'Your PC is protected' : 'Trial Expired!'}</h3>
+        <p>Trial Status: ${daysRemaining} days remaining</p>
+        <button onclick="scanSystem()" ${daysRemaining === 0 ? 'disabled' : ''}>Quick Scan</button>
+        <button onclick="updateAvast()" ${daysRemaining === 0 ? 'disabled' : ''}>Update</button>
+        ${daysRemaining === 0 ? '<button onclick="purchaseAvast()">Purchase Full Version</button>' : ''}
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(avastWindow);
+  makeWindowDraggable(avastWindow);
+  attachCloseHandler(avastWindow);
+}
+function scanSystem() {
+  if (!avastInstallDate || new Date() - new Date(avastInstallDate) > 30 * 24 * 60 * 60 * 1000) {
+    const error = createErrorWindow("Trial version expired. Please purchase full version to scan system.");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const scanWindow = document.createElement('div');
+  scanWindow.className = 'window';
+  scanWindow.style.width = '400px';
+  scanWindow.style.top = '150px';
+  scanWindow.style.left = '150px';
+  scanWindow.innerHTML = `
+        <div class="title-bar">
+            <span>Scanning System...</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div style="padding: 10px;">
+                <p>Scanning for threats...</p>
+                <progress id="scanProgress" value="0" max="100" style="width: 100%;"></progress>
+                <p id="scanStatus">Initializing scan...</p>
+            </div>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(scanWindow);
+  makeWindowDraggable(scanWindow);
+  attachCloseHandler(scanWindow);
+  const progress = scanWindow.querySelector('#scanProgress');
+  const status = scanWindow.querySelector('#scanStatus');
+  let value = 0;
+  const scanInterval = setInterval(() => {
+    value += 1;
+    progress.value = value;
+    if (value < 30) {
+      status.textContent = "Scanning system files...";
+    } else if (value < 60) {
+      status.textContent = "Scanning memory...";
+    } else if (value < 90) {
+      status.textContent = "Scanning registry...";
+    } else {
+      status.textContent = "Finalizing scan...";
+    }
+    if (value >= 100) {
+      clearInterval(scanInterval);
+      if (systemInfected) {
+        const resultWindow = createErrorWindow("Threat found: ILOVEYOU virus. Removing threat...");
+        document.querySelector('.desktop').appendChild(resultWindow);
+        makeWindowDraggable(resultWindow);
+        attachCloseHandler(resultWindow);
+        setTimeout(() => {
+          const cleanWindow = createErrorWindow("System cleaned! ILOVEYOU virus has been removed.");
+          document.querySelector('.desktop').appendChild(cleanWindow);
+          makeWindowDraggable(cleanWindow);
+          attachCloseHandler(cleanWindow);
+          systemInfected = false;
+        }, 2000);
+      } else {
+        const resultWindow = createErrorWindow("Scan complete! No threats found.");
+        document.querySelector('.desktop').appendChild(resultWindow);
+        makeWindowDraggable(resultWindow);
+        attachCloseHandler(resultWindow);
+      }
+      scanWindow.remove();
+    }
+  }, 100);
+}
+function updateAvast() {
+  if (!avastInstallDate || new Date() - new Date(avastInstallDate) > 30 * 24 * 60 * 60 * 1000) {
+    const error = createErrorWindow("Trial version expired. Please purchase full version to update.");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const error = createErrorWindow("Update server not responding. Try again in 2037.");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+let avastInstallDate = localStorage.getItem('avastInstallDate');
+function purchaseAvast() {
+  const purchaseWindow = createErrorWindow("Please send $49.99 via mail order to purchase full version. Allow 6-8 weeks for delivery.");
+  document.querySelector('.desktop').appendChild(purchaseWindow);
+  makeWindowDraggable(purchaseWindow);
+  attachCloseHandler(purchaseWindow);
+}
+function openTXTEdit() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const txtEdit = document.createElement('div');
+  txtEdit.className = 'window';
+  txtEdit.style.width = '500px';
+  txtEdit.style.height = '400px';
+  txtEdit.style.top = '100px';
+  txtEdit.style.left = '100px';
+  txtEdit.innerHTML = `
+        <div class="title-bar">
+            <span>TXTEdit - Untitled</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content" style="height: calc(100% - 30px);">
+            <div style="padding: 5px; background: #c0c0c0;">
+                <button onclick="saveText(this)">Save</button>
+                <button onclick="newText(this)">New</button>
+            </div>
+            <textarea style="width: 100%; height: calc(100% - 35px); resize: none; border: inset 2px #fff; padding: 5px; font-family: 'Courier New', monospace;"></textarea>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(txtEdit);
+  makeWindowDraggable(txtEdit);
+  attachCloseHandler(txtEdit);
+}
+function saveText(button) {
+  const error = createErrorWindow("Error saving file: Drive C: is write-protected");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function newText(button) {
+  const textarea = button.closest('.window-content').querySelector('textarea');
+  if (textarea.value.trim() !== '') {
+    const confirmWindow = createErrorWindow("Do you want to save changes to Untitled?");
+    document.querySelector('.desktop').appendChild(confirmWindow);
+    makeWindowDraggable(confirmWindow);
+    attachCloseHandler(confirmWindow);
+  }
+  textarea.value = '';
+}
+function openMediaPlayer() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const player = document.createElement('div');
+  player.className = 'window';
+  player.style.width = '400px';
+  player.style.top = '100px';
+  player.style.left = '100px';
+  player.innerHTML = `
+        <div class="title-bar">
+            <span>Binbows Media Player</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div style="background: #000; height: 240px; display: flex; align-items: center; justify-content: center; color: #fff;">
+                No media loaded
+            </div>
+            <div style="padding: 10px; background: #c0c0c0;">
+                <button onclick="playMedia(this)">Play</button>
+                <button onclick="stopMedia(this)">Stop</button>
+                <button onclick="loadMedia(this)">Load Media</button>
+                <div style="margin-top: 10px;">
+                    Volume: <input type="range" min="0" max="100" value="50" style="width: 100px;">
+                </div>
+                <div class="media-status" style="margin-top: 5px; font-family: 'Courier New';">
+                    Status: Ready
+                </div>
+            </div>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(player);
+  makeWindowDraggable(player);
+  attachCloseHandler(player);
+}
+function playMedia(button) {
+  const statusDiv = button.closest('.window-content').querySelector('.media-status');
+  statusDiv.textContent = 'Status: Error - Codec not found';
+  const error = createErrorWindow("Error: Required codec pack not installed");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function stopMedia(button) {
+  const statusDiv = button.closest('.window-content').querySelector('.media-status');
+  statusDiv.textContent = 'Status: Stopped';
+}
+function loadMedia(button) {
+  const statusDiv = button.closest('.window-content').querySelector('.media-status');
+  statusDiv.textContent = 'Status: Loading...';
+  setTimeout(() => {
+    const error = createErrorWindow("Error: Invalid media format or file corrupted");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    statusDiv.textContent = 'Status: Error loading media';
+  }, 1500);
+}
+function fileError(filename) {
+  const error = createErrorWindow(`Error opening ${filename}: File is corrupted or access denied`);
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+  const errorSound = document.getElementById('errorSound');
+  errorSound.currentTime = 0;
+  errorSound.play().catch(err => console.log("Error playing sound:", err));
+}
+function showProductTeam() {
+  const teamWindow = document.createElement('div');
+  teamWindow.className = 'window';
+  teamWindow.style.width = '500px';
+  teamWindow.style.top = '50%';
+  teamWindow.style.left = '50%';
+  teamWindow.style.transform = 'translate(-50%, -50%)';
+  teamWindow.innerHTML = `
+    <div class="title-bar">
+      <span>The Michealsoft Binbows Product Team</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content" style="padding: 20px; text-align: center;">
+      <h2 style="color: #000080; margin-bottom: 20px;">Michealsoft Binbows</h2>
+      <div style="text-align: left; margin: 20px;">
+        <h3>Product Team:</h3>
+        <ul style="list-style-type: none;">
+          <li> Bill Fences - Chief Binbows Architect</li>
+          <li> Steve Ballmare - Chief Shouting Officer</li>
+          <li> Bug Master Dennis - Quality Control</li>
+          <li> MS Paint Lead Artist - Bob the Painter</li>
+          <li> Error Sound Designer - Dr. Beep Boop</li>
+          <li> Documentation - Copy & Paste Expert</li>
+          <li> Coffee Machine Maintainer - Java Joe</li>
+        </ul>
+        <p style="margin-top: 20px; font-style: italic; color: #666;">
+          "Where do you want to crash today?"<br>
+          - Michealsoft Binbows Team, 1995
+        </p>
+      </div>
+      <button onclick="this.closest('.window').remove()">OK</button>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(teamWindow);
+  makeWindowDraggable(teamWindow);
+  attachCloseHandler(teamWindow);
+  const startupSound = document.getElementById('startupSound');
+  startupSound.currentTime = 0;
+  startupSound.play().catch(err => console.log("Error playing sound:", err));
+}
+function openShopping() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const shoppingWindow = document.createElement('div');
+  shoppingWindow.className = 'window';
+  shoppingWindow.style.width = '500px';
+  shoppingWindow.style.top = '100px';
+  shoppingWindow.style.left = '100px';
+  shoppingWindow.innerHTML = `
+        <div class="title-bar">
+            <span>Michealsoft Shopping</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div style="padding: 10px;">
+                <div style="background: white; border: inset 2px #fff; padding: 10px; height: 300px; overflow-y: auto;">
+                    <h3>Software & Games</h3>
+                    <div class="shopping-item" style="border-bottom: 1px solid #ccc; padding: 10px; cursor: pointer;" onclick="tryBuy('DOOM')">
+                        <strong>DOOM</strong><br>
+                        <small>Requires: 4MB RAM, 66MHz CPU</small>
+                    </div>
+                    <div class="shopping-item" style="border-bottom: 1px solid #ccc; padding: 10px; cursor: pointer;" onclick="tryBuy('Minesweeper Pro')">
+                        <strong>Minesweeper Pro Edition</strong><br>
+                        <small>Now with extra mines!</small>
+                    </div>
+                    <div class="shopping-item" style="border-bottom: 1px solid #ccc; padding: 10px; cursor: pointer;" onclick="tryBuy('WordPerfect')">
+                        <strong>WordPerfect</strong><br>
+                        <small>15 floppy disks included</small>
+                    </div>
+                    <div class="shopping-item" style="border-bottom: 1px solid #ccc; padding: 10px; cursor: pointer;" onclick="tryBuy('Oregon Trail')">
+                        <strong>The Oregon Trail</strong><br>
+                        <small>Die of dysentery in high resolution!</small>
+                    </div>
+                    <div class="shopping-item" style="border-bottom: 1px solid #ccc; padding: 10px; cursor: pointer;" onclick="tryBuy('Norton Commander')">
+                        <strong>Norton Commander</strong><br>
+                        <small>File management for power users</small>
+                    </div>
+                    <div class="shopping-item" style="border-bottom: 1px solid #ccc; padding: 10px; cursor: pointer;" onclick="tryBuy('Lotus 1-2-3')">
+                        <strong>Lotus 1-2-3</strong><br>
+                        <small>Spreadsheets of the future!</small>
+                    </div>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button onclick="startDownload()">Download Selected</button>
+                    <button onclick="viewCart()">View Cart</button>
+                </div>
+            </div>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(shoppingWindow);
+  makeWindowDraggable(shoppingWindow);
+  attachCloseHandler(shoppingWindow);
+}
+function tryBuy(item) {
+  if (item === 'DOOM') {
+    const downloadPrompt = createErrorWindow(`Would you like to download ${item}? \nWarning: This will require over 2MB of hard drive space and Sound Blaster compatibility`);
+    document.querySelector('.desktop').appendChild(downloadPrompt);
+    makeWindowDraggable(downloadPrompt);
+    attachCloseHandler(downloadPrompt);
+    const downloadBtn = document.createElement('button');
+    downloadBtn.textContent = 'Start Download';
+    downloadBtn.onclick = () => {
+      downloadPrompt.remove();
+      startDownload();
+    };
+    downloadPrompt.querySelector('.window-content').appendChild(downloadBtn);
+    return;
+  }
+  const downloadPrompt = createErrorWindow(`Would you like to download ${item}? \nWarning: This will tie up your phone line for several hours`);
+  document.querySelector('.desktop').appendChild(downloadPrompt);
+  makeWindowDraggable(downloadPrompt);
+  attachCloseHandler(downloadPrompt);
+  const downloadBtn = document.createElement('button');
+  downloadBtn.textContent = 'Start Download';
+  downloadBtn.onclick = () => {
+    downloadPrompt.remove();
+    startDownload();
+  };
+  downloadPrompt.querySelector('.window-content').appendChild(downloadBtn);
+}
+function checkOut() {
+  const error = createErrorWindow("Checkout failed: Please insert credit card into floppy drive");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function viewCart() {
+  const error = createErrorWindow("Shopping cart corrupted: Please reinstall Michealsoft Shopping");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function startDownload() {
+  const downloadWindow = document.createElement('div');
+  downloadWindow.className = 'window';
+  downloadWindow.style.width = '300px';
+  downloadWindow.style.top = '150px';
+  downloadWindow.style.left = '150px';
+  downloadWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Downloading...</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px;">
+        <p>Downloading via dial-up connection...</p>
+        <progress value="0" max="100" id="downloadProgress"></progress>
+        <p id="downloadStatus">Estimated time: 7.5 hours</p>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(downloadWindow);
+  makeWindowDraggable(downloadWindow);
+  attachCloseHandler(downloadWindow);
+  const progress = downloadWindow.querySelector('#downloadProgress');
+  const status = downloadWindow.querySelector('#downloadStatus');
+  let value = 0;
+  const downloadInterval = setInterval(() => {
+    value += 1;
+    progress.value = value;
+    status.textContent = `Estimated time: ${Math.ceil(7.5 * (100 - value) / 100)} hours`;
+    if (value >= 100) {
+      clearInterval(downloadInterval);
+      const error = createErrorWindow("Download failed: Connection lost to CompuServe");
+      document.querySelector('.desktop').appendChild(error);
+      makeWindowDraggable(error);
+      attachCloseHandler(error);
+      downloadWindow.remove();
+    }
+  }, 100);
+}
+function openDowngrader() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const downgrader = document.createElement('div');
+  downgrader.className = 'window';
+  downgrader.style.width = '400px';
+  downgrader.style.top = '120px';
+  downgrader.style.left = '120px';
+  downgrader.innerHTML = `
+    <div class="title-bar">
+      <span>System Downgrader</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px;">
+        <h3>Current System:</h3>
+        <p>Binbows 95 Plus!</p>
+        <h3>Available Downgrades:</h3>
+        <select style="width: 100%; margin: 10px 0;">
+          <option>Binbows 3.11 For Workgroups</option>
+          <option>Binbows 3.1</option>
+          <option>Binbows 2.0</option>
+          <option>MS-BOS 6.22</option>
+          <option>MS-BOS 5.0</option>
+          <option>MS-BOS 4.01</option>
+          <option>MS-BOS 1.0</option>
+        </select>
+        <div style="margin-top: 10px;">
+          <button onclick="startDowngrade()">Start Downgrade</button>
+          <button onclick="checkCompatibility()">Check Compatibility</button>
+        </div>
+        <p style="color: red; margin-top: 10px;">
+          Warning: Downgrading may cause your computer to travel back in time
+        </p>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(downgrader);
+  makeWindowDraggable(downgrader);
+  attachCloseHandler(downgrader);
+}
+function startDowngrade() {
+  const confirmWindow = createErrorWindow("Are you sure you want to downgrade? This will remove all modern technologies including the internet, mice, and color displays.");
+  document.querySelector('.desktop').appendChild(confirmWindow);
+  makeWindowDraggable(confirmWindow);
+  attachCloseHandler(confirmWindow);
+  const confirmBtn = document.createElement('button');
+  confirmBtn.textContent = 'Continue Anyway';
+  confirmBtn.onclick = () => {
+    confirmWindow.remove();
+    const progressWindow = document.createElement('div');
+    progressWindow.className = 'window';
+    progressWindow.style.width = '300px';
+    progressWindow.style.top = '150px';
+    progressWindow.style.left = '150px';
+    progressWindow.innerHTML = `
+      <div class="title-bar">
+        <span>Downgrading System...</span>
+        <button class="close-btn">✕</button>
+      </div>
+      <div class="window-content">
+        <div style="padding: 10px;">
+          <p>Removing unnecessary features...</p>
+          <progress value="0" max="100" id="downgradeProgress"></progress>
+          <p id="downgradeStatus">Removing GUI...</p>
+        </div>
+      </div>
+    `;
+    document.querySelector('.desktop').appendChild(progressWindow);
+    makeWindowDraggable(progressWindow);
+    attachCloseHandler(progressWindow);
+    const progress = progressWindow.querySelector('#downgradeProgress');
+    const status = progressWindow.querySelector('#downgradeStatus');
+    let value = 0;
+    const messages = ["Removing GUI...", "Uninstalling mouse drivers...", "Downgrading to CGA graphics...", "Reinstalling MS-BOS...", "Forgetting about the internet...", "Installing trumpet winsock...", "Degaussing hard drive...", "Converting to 5.25\" floppies..."];
+    const interval = setInterval(() => {
+      value += 2;
+      progress.value = value;
+      if (value % 12 === 0) {
+        status.textContent = messages[Math.floor(value / 12) % messages.length];
+      }
+      if (value >= 100) {
+        clearInterval(interval);
+        progressWindow.remove();
+        const dosScreen = document.createElement('div');
+        dosScreen.style.position = 'fixed';
+        dosScreen.style.top = '0';
+        dosScreen.style.left = '0';
+        dosScreen.style.width = '100vw';
+        dosScreen.style.height = '100vh';
+        dosScreen.style.backgroundColor = '#000';
+        dosScreen.style.color = '#fff';
+        dosScreen.style.fontFamily = 'Courier New, monospace';
+        dosScreen.style.padding = '20px';
+        dosScreen.style.boxSizing = 'border-box';
+        dosScreen.style.zIndex = '10000';
+        dosScreen.innerHTML = `
+          C:\\><span class="blink">_</span><br>
+          Version MS-BOS 6.22<br>
+          (C)Copyright Michealsoft Corp 1981-1994<br><br>
+          HIMEM is testing extended memory...<br>
+          Extended memory test successful<br><br>
+          640K conventional memory<br>
+          127K extended memory<br><br>
+          Current time is ${new Date().toLocaleTimeString()}<br>
+          Enter 'win' to start Binbows<br>
+          C:\\><span class="blink">_</span>
+        `;
+        document.body.appendChild(dosScreen);
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+          .blink {
+            animation: blink 1s infinite;
+          }
+        `;
+        document.head.appendChild(style);
+        let typedCommand = '';
+        document.addEventListener('keydown', function typingHandler(e) {
+          if (e.key.length === 1) {
+            typedCommand += e.key.toLowerCase();
+            const lastLine = dosScreen.innerHTML.split('<br>').pop();
+            dosScreen.innerHTML = dosScreen.innerHTML.split('<br>').slice(0, -1).join('<br>') + `<br>C:\\>${typedCommand}<span class="blink">_</span>`;
+          } else if (e.key === 'Enter') {
+            if (typedCommand.trim() === 'win') {
+              document.removeEventListener('keydown', typingHandler);
+              location.reload();
+            } else {
+              typedCommand = '';
+              dosScreen.innerHTML += `<br>Bad command or file name<br>C:\\><span class="blink">_</span>`;
+            }
+          } else if (e.key === 'Backspace') {
+            typedCommand = typedCommand.slice(0, -1);
+            const lastLine = dosScreen.innerHTML.split('<br>').pop();
+            dosScreen.innerHTML = dosScreen.innerHTML.split('<br>').slice(0, -1).join('<br>') + `<br>C:\\>${typedCommand}<span class="blink">_</span>`;
+          }
+        });
+      }
+    }, 100);
+  };
+  confirmWindow.querySelector('.window-content').appendChild(confirmBtn);
+}
+function checkCompatibility() {
+  const error = createErrorWindow("System too advanced for downgrade. Please remove all modern components including RAM above 640K.");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function openBetscape() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const betscape = document.createElement('div');
+  betscape.className = 'window browser-window';
+  betscape.style.width = '600px';
+  betscape.style.height = '400px';
+  betscape.style.top = '50px';
+  betscape.style.left = '50px';
+  betscape.innerHTML = `
+    <div class="title-bar">
+      <span>Betscape Navigator 4.4.0</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 5px; background: #c0c0c0;">
+        <button onclick="betscapeBack()">Back</button>
+        <button onclick="betscapeForward()">Forward</button>
+        <button onclick="betscapeReload()">Reload</button>
+        <button onclick="betscapeStop()">Stop</button>
+      </div>
+      <div class="address-bar" style="padding: 5px;">
+        <input type="text" value="https://home.betscape.com" style="width: 100%;" />
+        <button onclick="betscapeGo()">Go</button>
+      </div>
+      <div class="browser-content" style="height: calc(100% - 80px); padding: 10px; background: white;">
+        <div style="text-align: center;">
+          <h2 style="color: #800080;">Welcome to Betscape Navigator</h2>
+          <p>Loading home page...</p>
+          <progress style="width: 200px;"></progress>
+          <p style="color: red; margin-top: 20px;">
+            Error: Cannot connect to home.betscape.com<br>
+            The Internet appears to be broken.
+          </p>
+          <button onclick="betscapeDialup()">Reconnect to Internet</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(betscape);
+  makeWindowDraggable(betscape);
+  attachCloseHandler(betscape);
+}
+function betscapeBack() {
+  const error = createErrorWindow("No pages in history. Are you sure the Internet was invented yet?");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function betscapeForward() {
+  const error = createErrorWindow("Cannot predict future pages. Time travel module not installed.");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function betscapeReload() {
+  const error = createErrorWindow("Page failed to reload. Have you tried defragmenting your modem?");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function betscapeStop() {
+  const error = createErrorWindow("Cannot stop what hasn't started. *taps head*");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function betscapeGo() {
+  const error = createErrorWindow("Cannot connect: PPP negotiation failed. Is your Internet flange properly aligned?");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function betscapeDialup() {
+  const dialup = document.createElement('div');
+  dialup.className = 'window';
+  dialup.style.width = '300px';
+  dialup.style.top = '150px';
+  dialup.style.left = '150px';
+  dialup.innerHTML = `
+    <div class="title-bar">
+      <span>Dialing...</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px;">
+        <p>Connecting to Internet via Dialup...</p>
+        <pre style="font-family: monospace; font-size: 12px;">
+ATDT5551234
+NO CARRIER
+ATDT5551234
+NO CARRIER
+ATDT5551234
+ERROR: PHONE LINE IN USE
+        </pre>
+        <button onclick="this.closest('.window').remove()">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(dialup);
+  makeWindowDraggable(dialup);
+  attachCloseHandler(dialup);
+  const error = createErrorWindow("Connection failed: Someone picked up the phone in another room");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function openVirtualBinbows() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const virtualBinbows = document.createElement('div');
+  virtualBinbows.className = 'window';
+  virtualBinbows.style.width = '500px';
+  virtualBinbows.style.height = '400px';
+  virtualBinbows.style.top = '50px';
+  virtualBinbows.style.left = '50px';
+  virtualBinbows.innerHTML = `
+        <div class="title-bar">
+            <span>Virtual Binbows</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div style="padding: 10px;">
+                <div style="background: #000080; color: white; padding: 10px; margin-bottom: 10px;">
+                    <h3>Virtual Binbows Manager</h3>
+                    <p>Current Host: Binbows 95</p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <select id="vbVersion" style="width: 200px;">
+                        <option value="31">Binbows 3.1</option>
+                        <option value="311">Binbows 3.11</option>
+                        <option value="95">Binbows 95</option>
+                        <option value="98">Binbows 98</option>
+                    </select>
+                    <button onclick="startVirtualBinbows()">Start Virtual Machine</button>
+                </div>
+                <div style="border: 2px inset #fff; padding: 10px; height: 200px; background: #008080; color: white;">
+                    <p>System Requirements:</p>
+                    <ul>
+                        <li>Memory Available: 4MB of 4MB</li>
+                        <li>Disk Space: 80MB free of 80MB</li>
+                        <li>CPU: 486DX/66</li>
+                    </ul>
+                    <p id="vbStatus" style="margin-top: 10px;">Status: Ready to launch</p>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button onclick="configureVB()">Configure</button>
+                    <button onclick="importVBImage()">Import Image</button>
+                    <button onclick="exportVBImage()">Export Image</button>
+                </div>
+            </div>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(virtualBinbows);
+  makeWindowDraggable(virtualBinbows);
+  attachCloseHandler(virtualBinbows);
+}
+function startVirtualBinbows() {
+  const version = document.getElementById('vbVersion').value;
+  const status = document.getElementById('vbStatus');
+  status.textContent = 'Status: Starting virtual machine...';
+  const dosScreen = document.createElement('div');
+  dosScreen.className = 'dos-screen';
+  dosScreen.style.position = 'fixed';
+  dosScreen.style.top = '0';
+  dosScreen.style.left = '0';
+  dosScreen.style.width = '100vw';
+  dosScreen.style.height = '100vh';
+  dosScreen.style.zIndex = '10000';
+  let bootText = '';
+  const versionText = {
+    '31': 'Windows 3.1',
+    '311': 'Windows 3.11 For Workgroups',
+    '95': 'Windows 95',
+    '98': 'Windows 98'
+  };
+  bootText = `
+Starting MS-DOS...
+HIMEM is testing extended memory...
+SMARTDRV installed
+Mouse driver installed...
+Starting ${versionText[version]}...
+`;
+  dosScreen.textContent = bootText;
+  document.body.appendChild(dosScreen);
+  let dots = 0;
+  const bootInterval = setInterval(() => {
+    dots = (dots + 1) % 4;
+    dosScreen.textContent = bootText + '.'.repeat(dots);
+  }, 500);
+  setTimeout(() => {
+    clearInterval(bootInterval);
+    dosScreen.remove();
+    const error = createErrorWindow(`Error loading ${versionText[version]}: General Protection Fault at 000D:C012`);
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    status.textContent = 'Status: VM crashed';
+  }, 5000);
+}
+function configureVB() {
+  const configWindow = document.createElement('div');
+  configWindow.className = 'window';
+  configWindow.style.width = '400px';
+  configWindow.style.top = '100px';
+  configWindow.style.left = '100px';
+  configWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Virtual Binbows Configuration</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px;">
+        <h3>Hardware Configuration</h3>
+        <div style="margin: 10px 0;">
+          <label>Memory: </label>
+          <select>
+            <option>640KB</option>
+            <option>1MB</option>
+            <option>2MB</option>
+            <option>4MB</option>
+          </select>
+        </div>
+        <div style="margin: 10px 0;">
+          <label>CPU: </label>
+          <select>
+            <option>8086</option>
+            <option>286</option>
+            <option>386</option>
+            <option>486</option>
+          </select>
+        </div>
+        <div style="margin: 10px 0;">
+          <label>Graphics: </label>
+          <select>
+            <option>CGA</option>
+            <option>EGA</option>
+            <option>VGA</option>
+            <option>SVGA</option>
+          </select>
+        </div>
+        <div style="margin: 10px 0;">
+          <label>Sound: </label>
+          <select>
+            <option>PC Speaker</option>
+            <option>Sound Blaster</option>
+            <option>Sound Blaster 16</option>
+            <option>None</option>
+          </select>
+        </div>
+        <button onclick="saveVBConfig()">Save Configuration</button>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(configWindow);
+  makeWindowDraggable(configWindow);
+  attachCloseHandler(configWindow);
+}
+function saveVBConfig() {
+  const error = createErrorWindow("Configuration saved. Note: Changes will take effect after deleting CONFIG.SYS");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+function importVBImage() {
+  const importWindow = document.createElement('div');
+  importWindow.className = 'window';
+  importWindow.style.width = '400px';
+  importWindow.style.top = '120px';
+  importWindow.style.left = '120px';
+  importWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Import Virtual Machine</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px;">
+        <p>Please insert Disk 1 of 47</p>
+        <progress value="0" max="100" id="importProgress"></progress>
+        <p id="importStatus">Waiting for disk...</p>
+        <button onclick="simulateImport(this)">Insert Disk</button>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(importWindow);
+  makeWindowDraggable(importWindow);
+  attachCloseHandler(importWindow);
+}
+function simulateImport(button) {
+  const progress = button.parentElement.querySelector('#importProgress');
+  const status = button.parentElement.querySelector('#importStatus');
+  let currentDisk = 1;
+  const updateImport = () => {
+    progress.value = (currentDisk - 1) * 100 / 47;
+    if (currentDisk <= 47) {
+      status.textContent = `Reading Disk ${currentDisk} of 47...`;
+      currentDisk++;
+      setTimeout(requestNextDisk, 2000);
+    } else {
+      const error = createErrorWindow("Import failed: Disk 48 not found. This shouldn't be possible.");
+      document.querySelector('.desktop').appendChild(error);
+      makeWindowDraggable(error);
+      attachCloseHandler(error);
+      button.closest('.window').remove();
+    }
+  };
+  const requestNextDisk = () => {
+    const error = createErrorWindow(`Please insert Disk ${currentDisk} of 47`);
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+  };
+  updateImport();
+}
+function exportVBImage() {
+  const exportWindow = document.createElement('div');
+  exportWindow.className = 'window';
+  exportWindow.style.width = '400px';
+  exportWindow.style.top = '120px';
+  exportWindow.style.left = '120px';
+  exportWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Export Virtual Machine</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div style="padding: 10px;">
+        <p>Preparing to export virtual machine...</p>
+        <progress value="0" max="100" id="exportProgress"></progress>
+        <p id="exportStatus">Calculating required floppies...</p>
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(exportWindow);
+  makeWindowDraggable(exportWindow);
+  attachCloseHandler(exportWindow);
+  const progress = exportWindow.querySelector('#exportProgress');
+  const status = exportWindow.querySelector('#exportStatus');
+  let value = 0;
+  const interval = setInterval(() => {
+    value += 2;
+    progress.value = value;
+    if (value >= 100) {
+      clearInterval(interval);
+      const error = createErrorWindow("Export failed: Not enough floppy disks in known universe");
+      document.querySelector('.desktop').appendChild(error);
+      makeWindowDraggable(error);
+      attachCloseHandler(error);
+      exportWindow.remove();
+    }
+  }, 100);
+}
+function open3DPinball() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const pinballWindow = document.createElement('div');
+  pinballWindow.className = 'window';
+  pinballWindow.style.width = '350px';
+  pinballWindow.style.height = '450px';
+  pinballWindow.style.top = '50px';
+  pinballWindow.style.left = '50px';
+  pinballWindow.innerHTML = `
+        <div class="title-bar">
+            <span>3D Pinball for Binbows</span>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content" style="padding: 0; height: calc(100% - 20px);">
+            <iframe src="https://98.js.org/programs/pinball/space-cadet.html" 
+                    style="width: 100%; height: 100%; border: none;">
+            </iframe>
+        </div>
+    `;
+  document.querySelector('.desktop').appendChild(pinballWindow);
+  makeWindowDraggable(pinballWindow);
+  attachCloseHandler(pinballWindow);
+}
+function openSomari() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const somariWindow = document.createElement('div');
+  somariWindow.className = 'window';
+  somariWindow.style.width = '620px';
+  somariWindow.style.height = '500px';
+  somariWindow.style.top = '50px';
+  somariWindow.style.left = '50px';
+  somariWindow.innerHTML = `
+    <div class="title-bar">
+        <span>Somari</span>
+        <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content" style="padding: 0; height: calc(100% - 20px);">
+        <iframe src="https://www.retrogames.cc/embed/42614-somari.html" 
+                width="600" height="450" 
+                frameborder="no" 
+                allowfullscreen="true" 
+                webkitallowfullscreen="true" 
+                mozallowfullscreen="true" 
+                scrolling="no"
+                style="width: 100%; height: 100%; border: none;">
+        </iframe>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(somariWindow);
+  makeWindowDraggable(somariWindow);
+  attachCloseHandler(somariWindow);
+}
+function openPaint() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+  const paintWindow = document.createElement('div');
+  paintWindow.className = 'window';
+  paintWindow.style.width = '600px';
+  paintWindow.style.height = '400px';
+  paintWindow.style.top = '50px';
+  paintWindow.style.left = '50px';
+  paintWindow.innerHTML = `
+    <div class="title-bar">
+        <span>Paint - Untitled</span>
+        <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content" style="padding: 0;">
+        <div style="padding: 5px; background: #c0c0c0; display:flex; gap: 5px;">
+            <button onclick="paint_new()">New</button>
+            <button onclick="paint_save()">Save</button>
+            <select onchange="paint_tool(this.value)">
+                <option value="pencil">Pencil</option>
+                <option value="brush">Brush</option>
+                <option value="eraser">Eraser</option>
+                <option value="fill">Fill</option>
+            </select>
+            <input type="color" onchange="paint_color(this.value)">
+            <input type="range" min="1" max="20" value="1" onchange="paint_size(this.value)">
+        </div>
+        <canvas id="paintCanvas" width="580" height="340" 
+                style="background: white; border: inset 2px #fff;"></canvas>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(paintWindow);
+  makeWindowDraggable(paintWindow);
+  attachCloseHandler(paintWindow);
+  initPaint();
+}
+
+function initPaint() {
+  const canvas = document.getElementById('paintCanvas');
+  const ctx = canvas.getContext('2d');
+  let painting = false;
+  
+  canvas.addEventListener('mousedown', startPaint);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', stopPaint);
+  canvas.addEventListener('mouseleave', stopPaint);
+
+  function startPaint(e) {
+    painting = true;
+    draw(e);
+  }
+
+  function draw(e) {
+    if (!painting) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    ctx.lineWidth = 1;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000000';
+    
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  }
+
+  function stopPaint() {
+    painting = false;
+    ctx.beginPath();
+  }
+}
+
+function paint_new() {
+  const canvas = document.getElementById('paintCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function paint_save() {
+  const error = createErrorWindow("Cannot save: Printer is out of paper");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+
+function paint_tool(tool) {
+  const error = createErrorWindow(`${tool} tool is currently on coffee break`);
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+
+function paint_color(color) {
+  const error = createErrorWindow("Colors other than black require Premium subscription");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+
+function paint_size(size) {
+  const error = createErrorWindow("Size adjustment requires additional RAM download");
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+
+const translations = {
+  en: {
+    startButton: "Start",
+    documents: "Your Documents",
+    internet: "Internet Investigator",
+    bloatsweeper: "BloatSweepR",
+    email: "D-MAIL",
+    avast: "Avast Antivirus",
+    txtedit: "TXTEdit",
+    media: "Media Player",
+    shopping: "Michealsoft Shopping",
+    downgrader: "Downgrader",
+    betscape: "Betscape 4.4.0",
+    virtual: "Virtual Binbows",
+    pinball: "3D Pinball",
+    somari: "Somari",
+    programs: "Programs",
+    settings: "Settings",
+    shutdown: "Shut Down...",
+    paint: "Paint",
+    candyCrush: "Candy Crush LQ",
+    elevator: "Elevator Game",
+    keygen: "KEYGENERATE",
+    activate: "Activate Binbows",
+  },
+  ja: {
+    startButton: "スタート",
+    documents: "マイ ドキュメント",
+    internet: "インターネット調査官",
+    bloatsweeper: "ブロートスイーパー",
+    email: "Dメール",
+    avast: "アバスト アンチウイルス",
+    txtedit: "テキスト編集",
+    media: "メディア プレーヤー",
+    shopping: "マイケルソフト ショッピング",
+    downgrader: "ダウングレーダー",
+    betscape: "ベットスケープ 4.4.0",
+    virtual: "バーチャル ビンボウズ",
+    pinball: "3D ピンボール",
+    somari: "ソマリ",
+    programs: "プログラム",
+    settings: "設定",
+    shutdown: "シャットダウン...",
+    paint: "ペイント",
+    candyCrush: "キャンディクラッシュLQ",
+    elevator: "エレベーターゲーム",
+    keygen: "キージェネレート",
+    activate: "ビンボウズを認証",
+  },
+  pt: {
+    startButton: "Iniciar",
+    documents: "Meus Documentos",
+    internet: "Investigador de Internet",
+    bloatsweeper: "BloatSweepR",
+    email: "D-MAIL",
+    avast: "Avast Antivírus",
+    txtedit: "Editor de Texto",
+    media: "Media Player",
+    shopping: "Compras Michealsoft",
+    downgrader: "Downgrader",
+    betscape: "Betscape 4.4.0",
+    virtual: "Binbows Virtual",
+    pinball: "Pinball 3D",
+    somari: "Somari",
+    programs: "Programas",
+    settings: "Configurações",
+    shutdown: "Desligar...",
+    paint: "Paint",
+    candyCrush: "Candy Crush LQ",
+    elevator: "Jogo do Elevador",
+    keygen: "KEYGENERATE",
+    activate: "Ativar Binbows",
+  }
+};
+
+function toggleLanguageMenu() {
+  const menu = document.getElementById('languageMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  menu.style.bottom = '40px'; 
+  menu.style.right = document.querySelector('.language-btn').offsetLeft + 'px'; 
+}
+
+function changeLanguage(lang) {
+  document.getElementById('currentLang').textContent = {
+    'en': 'English',
+    'ja': '日本語',
+    'pt': 'Português'
+  }[lang];
+  const trans = translations[lang];
+  document.querySelector('.start-btn').lastChild.textContent = trans.startButton;
+  document.querySelectorAll('.icon div').forEach(div => {
+    const text = div.textContent;
+    if (text === 'Your Documents') div.textContent = trans.documents;
+    if (text === 'Internet Investigator') div.textContent = trans.internet;
+    if (text === 'BloatSweepR') div.textContent = trans.bloatsweeper;
+    if (text === 'D-MAIL') div.textContent = trans.email;
+    if (text === 'Avast Antivirus') div.textContent = trans.avast;
+    if (text === 'TXTEdit') div.textContent = trans.txtedit;
+    if (text === 'Media Player') div.textContent = trans.media;
+    if (text === 'Michealsoft Shopping') div.textContent = trans.shopping;
+    if (text === 'Downgrader') div.textContent = trans.downgrader;
+    if (text === 'Betscape 4.4.0') div.textContent = trans.betscape;
+    if (text === 'Virtual Binbows') div.textContent = trans.virtual;
+    if (text === '3D Pinball') div.textContent = trans.pinball;
+    if (text === 'Somari') div.textContent = trans.somari;
+    if (text === 'Paint') div.textContent = trans.paint;
+    if (text === 'Candy Crush LQ') div.textContent = trans.candyCrush;
+    if (text === 'Elevator Game') div.textContent = trans.elevator;
+    if (text === 'KEYGENERATE') div.textContent = trans.keygen;
+    if (text === 'Activate Binbows') div.textContent = trans.activate;
+  });
+  document.querySelectorAll('.start-menu-item').forEach(item => {
+    const text = item.textContent.trim();
+    if (text === 'Programs') item.lastChild.textContent = trans.programs;
+    if (text === 'Settings') item.lastChild.textContent = trans.settings;
+    if (text === 'Shut Down...') item.lastChild.textContent = trans.shutdown;
+    if (text === 'Elevator Game') item.lastChild.textContent = trans.elevator;
+    if (text === 'KEYGENERATE') item.lastChild.textContent = trans.keygen;
+    if (text === 'Activate Binbows') item.lastChild.textContent = trans.activate;
+  });
+  toggleLanguageMenu();
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.matches('.language-btn') && !e.target.matches('.language-option') && !e.target.matches('#currentLang')) {
+    document.getElementById('languageMenu').style.display = 'none';
+  }
+});
+
+function validateProductKey(key, product) {
+  if (!/^[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}$/.test(key)) {
+    return false;
+  }
+
+  if (!localStorage.getItem('validatedKeys')) {
+    localStorage.setItem('validatedKeys', JSON.stringify({}));
+  }
+  
+  const validatedKeys = JSON.parse(localStorage.getItem('validatedKeys'));
+  validatedKeys[product] = key;
+  localStorage.setItem('validatedKeys', JSON.stringify(validatedKeys));
+  
+  return true;
+}
+
+function openActivate() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+
+  const activateWindow = document.createElement('div');
+  activateWindow.className = 'window';
+  activateWindow.style.width = '400px';
+  activateWindow.style.top = '50px';
+  activateWindow.style.left = '50px';
+  activateWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Activate Binbows</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content" style="background: #000; padding: 10px;">
+      <div style="text-align: center;">
+        <div class="activation-display">
+          Your copy of Binbows is not activated<br>
+          Please enter your product key
+        </div>
+        <input type="text" class="activation-input" id="activationKey" 
+               placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" maxlength="29">
+        <div>
+          <button class="activation-button" onclick="validateKey()">Activate</button>
+          <button class="activation-button" onclick="purchaseKey()">Purchase Key</button>
+        </div>
+        <div style="margin-top: 20px; color: #ff0000;">
+          Warning: Your Binbows will expire in 30 days
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.querySelector('.desktop').appendChild(activateWindow);
+  makeWindowDraggable(activateWindow);
+  attachCloseHandler(activateWindow);
+}
+
+function validateKey() {
+  const key = document.getElementById('activationKey').value;
+  const validatedKeys = JSON.parse(localStorage.getItem('validatedKeys') || '{}');
+
+  if (validatedKeys['binbows'] && validatedKeys['binbows'] === key) {
+    const success = createErrorWindow("Binbows activated successfully! Thank you for choosing Binbows.");
+    document.querySelector('.desktop').appendChild(success);
+    makeWindowDraggable(success);
+    attachCloseHandler(success);
+  } else {
+    const errors = [
+      "Invalid key: Please insert activation floppy disk",
+      "Error: Activation server is having a coffee break", 
+      "Invalid key format: Must contain more random characters",
+      "Activation failed: Please try again in 1995",
+      "Error: Your Binbows copy might be genuine. This is unexpected."
+    ];
+    
+    const error = createErrorWindow(errors[Math.floor(Math.random() * errors.length)]);
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+  }
+}
+
+function purchaseKey() {
+  const error = createErrorWindow(
+    "Please send $299.99 via mail order to:\n" +
+    "Michealsoft Corporation\n" +
+    "123 Fake Street\n" +
+    "Redmund, WA 98052\n\n" +
+    "Please allow 6-8 weeks for delivery"
+  );
+  document.querySelector('.desktop').appendChild(error);
+  makeWindowDraggable(error);
+  attachCloseHandler(error);
+}
+
+function openElevator() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+
+  const elevatorWindow = document.createElement('div');
+  elevatorWindow.className = 'window';
+  elevatorWindow.style.width = '300px';
+  elevatorWindow.style.top = '50px';
+  elevatorWindow.style.left = '50px';
+  elevatorWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Elevator Simulator</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+      <div class="elevator-display">Floor: <span id="currentFloor">1</span></div>
+      <div class="elevator-interior">
+        <div class="elevator-door door-left"></div>
+        <div class="elevator-door door-right"></div>
+      </div>
+      <div class="elevator-buttons">
+        <input type="number" min="1" max="100" value="1" class="elevator-input">
+        <button onclick="goToFloor(this.previousElementSibling.value)">Go</button>
+      </div>
+    </div>
+  `;
+
+  document.querySelector('.desktop').appendChild(elevatorWindow);
+  makeWindowDraggable(elevatorWindow);
+  attachCloseHandler(elevatorWindow);
+}
+
+function goToFloor(floor) {
+  floor = parseInt(floor);
+  if (isNaN(floor) || floor < 1 || floor > 100) {
+    const error = createErrorWindow("Invalid floor number. Please enter a number between 1 and 100.");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+
+  const display = document.getElementById('currentFloor');
+  const currentFloor = parseInt(display.textContent);
+  const doorLeft = document.querySelector('.door-left');
+  const doorRight = document.querySelector('.door-right');
+
+  doorLeft.style.transform = 'translateX(-100%)';
+  doorRight.style.transform = 'translateX(100%)';
+
+  setTimeout(() => {
+    let count = currentFloor;
+    const interval = setInterval(() => {
+      if (count < floor) count++;
+      else if (count > floor) count--;
+      display.textContent = count;
+
+      if (count === floor) {
+        clearInterval(interval);
+        doorLeft.style.transform = 'translateX(0)';
+        doorRight.style.transform = 'translateX(0)';
+
+        if (floor === 100) {
+          setTimeout(elevatorCrash, 2000);
+        }
+      }
+    }, 100);
+  }, 500);
+}
+
+function elevatorCrash() {
+  const display = document.getElementById('currentFloor');
+  const interval = setInterval(() => {
+    const floor = parseInt(display.textContent);
+    display.textContent = floor - 1;
+    
+    if (floor <= 1) {
+      clearInterval(interval);
+      const bsod = document.createElement('div');
+      bsod.className = 'bsod';
+      bsod.innerHTML = `
+        ELEVATOR.EXE has encountered a fatal error at FLOOR_100
+        <br><br>
+        * Your elevator has experienced a critical malfunction
+        * All passengers have been virtually traumatized
+        * Please never attempt to reach floor 100 again
+        <br><br>
+        Press any key to terminate simulation...
+      `;
+      document.body.appendChild(bsod);
+      bsod.onclick = () => {
+        bsod.remove();
+        const elevatorWindow = document.querySelector('.window[style*="Elevator"]');
+        if (elevatorWindow) {
+          elevatorWindow.remove();
+        }
+        const emailContent = {
+          subject: "WARNING: Elevator Incident",
+          body: "We regret to inform you about your recent elevator experience. Please do not attempt to reach floor 100 again. The psychological damage to virtual passengers is immeasurable.",
+          from: "elevator.safety@binbows.com"
+        };
+        createWarningEmail(emailContent);
+      };
+    }
+  }, 50);
+}
+
+function createWarningEmail(content) {
+  const emailWindow = document.createElement('div');
+  emailWindow.className = 'window';
+  emailWindow.style.width = '400px';
+  emailWindow.style.top = '100px';
+  emailWindow.style.left = '100px';
+  emailWindow.innerHTML = `
+    <div class="title-bar">
+      <span>D-MAIL - ${content.subject}</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content" style="padding: 10px;">
+      <p><strong>From:</strong> ${content.from}</p>
+      <p><strong>Subject:</strong> ${content.subject}</p>
+      <div style="border: 1px solid #000; padding: 10px; margin: 10px 0;">
+        ${content.body}
+      </div>
+    </div>
+  `;
+  document.querySelector('.desktop').appendChild(emailWindow);
+  makeWindowDraggable(emailWindow);
+  attachCloseHandler(emailWindow);
+}
+
+function openCandyCrush() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+
+  const candyWindow = document.createElement('div');
+  candyWindow.className = 'window';
+  candyWindow.style.width = '400px';
+  candyWindow.style.height = '500px';
+  candyWindow.style.top = '50px';
+  candyWindow.style.left = '50px';
+  candyWindow.innerHTML = `
+    <div class="title-bar">
+      <span>Candy Crush Low Quality Edition</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content" style="padding: 10px; text-align: center;">
+      <div id="candyGame" style="width: 360px; height: 360px; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; background: #fff; padding: 5px;">
+      </div>
+      <div style="margin-top: 10px;">
+        <p>Score: <span id="candyScore">0</span></p>
+        <button onclick="startCandyGame()">New Game</button>
+      </div>
+    </div>
+  `;
+
+  document.querySelector('.desktop').appendChild(candyWindow);
+  makeWindowDraggable(candyWindow);
+  attachCloseHandler(candyWindow);
+  startCandyGame();
+}
+
+function startCandyGame() {
+  const gameBoard = document.getElementById('candyGame');
+  const scoreElement = document.getElementById('candyScore');
+  let score = 0;
+  gameBoard.innerHTML = '';
+  
+  for (let i = 0; i < 36; i++) {
+    const candy = document.createElement('div');
+    candy.style.width = '100%';
+    candy.style.height = '55px';
+    candy.style.border = '1px solid #ccc';
+    candy.style.cursor = 'pointer';
+    candy.style.backgroundColor = getRandomCandyColor();
+    
+    candy.onclick = () => {
+      candy.style.backgroundColor = getRandomCandyColor();
+      score += 10;
+      scoreElement.textContent = score;
+      
+      if (score > 100) {
+        const error = createErrorWindow("Memory leak detected: Too many candies crushed!");
+        document.querySelector('.desktop').appendChild(error);
+        makeWindowDraggable(error);
+        attachCloseHandler(error);
+      }
+    };
+    
+    gameBoard.appendChild(candy);
+  }
+}
+
+function getRandomCandyColor() {
+  const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function openKeygenerate() {
+  if (systemInfected) {
+    const error = createErrorWindow("Access denied - System infected with ILOVEYOU virus");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+    return;
+  }
+
+  const keygenWindow = document.createElement('div');
+  keygenWindow.className = 'window';
+  keygenWindow.style.width = '400px';
+  keygenWindow.style.top = '50px';
+  keygenWindow.style.left = '50px';
+  keygenWindow.innerHTML = `
+    <div class="title-bar">
+      <span>KEYGENERATE v1.0</span>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content" style="background: #000; padding: 10px;">
+      <div style="text-align: center;">
+        <div class="keygen-display" id="keygenDisplay">XXXX-XXXX-XXXX-XXXX</div>
+        <select id="keygenProduct" class="keygen-button" style="width: 200px; margin: 10px;">
+          <option value="binbows">Binbows 95</option>
+          <option value="office">Michealsoft Office</option>
+          <option value="antivirus">Avast Premium</option>
+          <option value="pinball">3D Pinball Plus</option>
+        </select>
+        <div>
+          <button class="keygen-button" onclick="generateKey()">Generate Key</button>
+          <button class="keygen-button" onclick="copyKey()">Copy Key</button>
+        </div>
+        <div style="margin-top: 20px;">
+          <audio id="keygenMusic" loop>
+            <source src="https://beispiel.com/keygen-music.mp3" type="audio/mpeg">
+          </audio>
+          <button class="keygen-button" onclick="toggleMusic()">Toggle Music</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.querySelector('.desktop').appendChild(keygenWindow);  
+  makeWindowDraggable(keygenWindow);
+  attachCloseHandler(keygenWindow);
+  startKeygenEffect();
+}
+
+function generateKey() {
+  const product = document.getElementById('keygenProduct').value;
+  const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  document.getElementById('keygenDisplay').textContent = key;
+
+  validateProductKey(key, product);
+
+  const display = document.getElementById('keygenDisplay');
+  display.style.textShadow = '0 0 10px #0f0';
+  setTimeout(() => {
+    display.style.textShadow = '0 0 5px #0f0';
+  }, 200);
+
+  if (Math.random() < 0.1) {
+    setTimeout(() => {
+      const success = createErrorWindow(`Key generated and activated for ${product}!`);
+      document.querySelector('.desktop').appendChild(success);
+      makeWindowDraggable(success);
+      attachCloseHandler(success);
+    }, 500);
+  }
+}
+
+function copyKey() {
+  const key = document.getElementById('keygenDisplay').textContent;
+  navigator.clipboard.writeText(key).then(() => {
+    const success = createErrorWindow("Key copied! Warning: Don't tell Michealsoft!");
+    document.querySelector('.desktop').appendChild(success);
+    makeWindowDraggable(success);
+    attachCloseHandler(success);
+  }).catch(() => {
+    const error = createErrorWindow("Copy failed: Clipboard.dll not found");
+    document.querySelector('.desktop').appendChild(error);
+    makeWindowDraggable(error);
+    attachCloseHandler(error);
+  });
+}
+
+function toggleMusic() {
+  const music = document.getElementById('keygenMusic');
+  if (music.paused) {
+    music.play().catch(() => {
+      const error = createErrorWindow("Error: MIDI synthesizer not found");
+      document.querySelector('.desktop').appendChild(error);
+      makeWindowDraggable(error);
+      attachCloseHandler(error);
+    });
+  } else {
+    music.pause();
+  }
+}
+
+function startKeygenEffect() {
+  const display = document.getElementById('keygenDisplay');
+  let chars = 'ABCDEF0123456789';
+  let counter = 0;
+  
+  const effect = setInterval(() => {
+    if (counter++ > 20) {
+      clearInterval(effect);
+      display.textContent = 'XXXX-XXXX-XXXX-XXXX';
+      return;
+    }
+    
+    let randomKey = '';
+    for (let i = 0; i < 19; i++) {
+      if (i % 5 === 4) {
+        randomKey += '-';
+      } else {
+        randomKey += chars[Math.floor(Math.random() * chars.length)];
+      }
+    }
+    display.textContent = randomKey;
+  }, 50);
+}
+
+function attachCloseHandler(window) {
+  window.querySelector('.close-btn').addEventListener('click', () => {
+    window.remove();
+  });
+}
+</script>
+</body></html>
