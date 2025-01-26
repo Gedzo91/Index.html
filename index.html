@@ -1,0 +1,472 @@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #00ff00;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #00ff00;
+            text-align: center;
+            text-shadow: 0 0 10px #00ff00;
+        }
+        .control-panel, .login-panel {
+            background-color: #111;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0,255,0,0.5);
+        }
+        .button, .login-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #003300;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+        }
+        .button:hover, .login-button:hover {
+            background-color: #004400;
+        }
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .disclaimer {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #loginScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .login-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #000;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+        }
+        .usa-flag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 30px;
+            background: linear-gradient(180deg, #ff0000 0%, #ff0000 16.67%, #ffffff 16.67%, #ffffff 33.33%, #ff0000 33.33%, #ff0000 50%, #ffffff 50%, #ffffff 66.67%, #ff0000 66.67%, #ff0000 83.33%, #ffffff 83.33%, #ffffff 100%);
+        }
+        .codename {
+            font-size: 12px;
+            color: #00ff00;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .led-panel {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .led {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .led-green { background-color: #00ff00; }
+        .led-red { background-color: #ff0000; }
+        .led-yellow { background-color: #ffff00; }
+        .joystick-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .joystick {
+            width: 150px;
+            height: 150px;
+            background-color: #222;
+            border-radius: 50%;
+            position: relative;
+        }
+        .joystick-button {
+            width: 60px;
+            height: 60px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: move;
+        }
+        .dpad {
+            width: 150px;
+            height: 150px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 5px;
+        }
+        .dpad-button {
+            background-color: #003300;
+            border: 1px solid #00ff00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .dpad-button:active {
+            background-color: #00ff00;
+        }
+        #dpad-up { grid-area: 1 / 2 / 2 / 3; }
+        #dpad-left { grid-area: 2 / 1 / 3 / 2; }
+        #dpad-center { grid-area: 2 / 2 / 3 / 3; }
+        #dpad-right { grid-area: 2 / 3 / 3 / 4; }
+        #dpad-down { grid-area: 3 / 2 / 4 / 3; }
+        .action-widgets {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .action-widget {
+            width: 22%;
+            height: 100px;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .widget-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .widget-label {
+            font-size: 12px;
+            text-align: center;
+        }
+        #fartWidget .widget-icon { transform: rotate(45deg); }
+        #infantRadarWidget { 
+            position: relative;
+            overflow: hidden;
+        }
+        #radarScreen {
+            width: 100%;
+            height: 100%;
+            background-color: #001100;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+        #radarLine {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 2px;
+            background-color: #00ff00;
+            transform-origin: left center;
+            animation: radar-sweep 4s infinite linear;
+        }
+        .radar-blip {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        #speakWidget {
+            position: relative;
+        }
+        #soundWave {
+            width: 100%;
+            height: 50px;
+            position: absolute;
+            bottom: 0;
+        }
+        .sound-bar {
+            position: absolute;
+            bottom: 0;
+            width: 3px;
+            background-color: #00ff00;
+            animation: sound-wave 0.5s infinite ease-in-out alternate;
+        }
+        #lookAtWidget {
+            position: relative;
+        }
+        .thermal-signature {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        @keyframes speak {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        @keyframes radar-sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes blip-fade {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 0; }
+        }
+        @keyframes sound-wave {
+            from { height: 5px; }
+            to { height: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="usa-flag"></div>
+    <div id="loginScreen">
+        <div class="login-panel">
+            <h2>B.I.D.E.N. Access Terminal</h2>
+            <input type="text" id="username" class="login-input" value="admin" readonly>
+            <input type="password" id="password" class="login-input" placeholder="Password">
+            <button class="login-button" onclick="login()">LOGIN</button>
+            <div class="codename">CODENAME: "biden"</div>
+            <div class="codename">PROJECT: B.I.D.E.N.</div>
+        </div>
+    </div>
+
+    <div class="container" style="display:none;" id="mainContent">
+        <h1>B.I.D.E.N. Remote Interface</h1>
+        <div class="control-panel">
+            <button class="button" id="fartBtn">Fart</button>
+            <button class="button" id="lookAtBtn">Look At</button>
+            <button class="button" id="speakBtn">Speak</button>
+            <button class="button" id="infantRadarBtn">Infant Radar</button>
+        </div>
+        <div class="action-widgets">
+            <div class="action-widget" id="fartWidget">
+                <div class="widget-icon">💨</div>
+                <div class="widget-label">Fart</div>
+            </div>
+            <div class="action-widget" id="lookAtWidget">
+                <div class="widget-icon">👀</div>
+                <div class="widget-label">Look At</div>
+            </div>
+            <div class="action-widget" id="speakWidget">
+                <div class="widget-icon">🗣️</div>
+                <div class="widget-label">Speak</div>
+                <div id="soundWave"></div>
+            </div>
+            <div class="action-widget" id="infantRadarWidget">
+                <div id="radarScreen">
+                    <div id="radarLine"></div>
+                </div>
+                <div class="widget-label">Infant Radar</div>
+            </div>
+        </div>
+        <div class="joystick-container">
+            <div class="joystick">
+                <div class="joystick-button" id="joystick"></div>
+            </div>
+            <div class="dpad">
+                <div class="dpad-button" id="dpad-up">▲</div>
+                <div class="dpad-button" id="dpad-left">◀</div>
+                <div class="dpad-button" id="dpad-center">•</div>
+                <div class="dpad-button" id="dpad-right">▶</div>
+                <div class="dpad-button" id="dpad-down">▼</div>
+            </div>
+        </div>
+        <div class="led-panel">
+            <div><span class="led led-green"></span> Cognitive</div>
+            <div><span class="led led-yellow"></span> Motor</div>
+            <div><span class="led led-red"></span> Speech</div>
+            <div><span class="led led-green"></span> Vision</div>
+        </div>
+        <p class="status" id="status">Status: B.I.D.E.N. unit awaiting command</p>
+        <p class="disclaimer">WARNING: Unauthorized access to B.I.D.E.N. (Bionic Intelligence Designed for Executive Needs) is a federal offense.</p>
+        <div class="codename">CODENAME: "biden"</div>
+        <div class="codename">B.I.D.E.N.: Bionic Intelligence Designed for Executive Needs</div>
+    </div>
+
+    <script>
+        function login() {
+            const password = document.getElementById('password').value;
+            if (password === 'admin') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            } else {
+                alert('Access Denied. Incorrect credentials.');
+            }
+        }
+
+        const buttons = document.querySelectorAll('.button');
+        const status = document.getElementById('status');
+        const joystick = document.getElementById('joystick');
+        const dpadButtons = document.querySelectorAll('.dpad-button');
+        const actionWidgets = document.querySelectorAll('.action-widget');
+        const radarScreen = document.getElementById('radarScreen');
+        const speakWidget = document.getElementById('speakWidget');
+        const lookAtWidget = document.getElementById('lookAtWidget');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.textContent.toLowerCase();
+                status.textContent = `Status: Initiating B.I.D.E.N. ${action} protocol...`;
+                
+                // Activate corresponding widget
+                const widget = document.getElementById(`${action.replace(' ', '')}Widget`);
+                widget.style.backgroundColor = '#00ff00';
+                setTimeout(() => {
+                    widget.style.backgroundColor = '';
+                }, 2000);
+
+                if (action === 'infant radar') {
+                    activateInfantRadar();
+                } else if (action === 'speak') {
+                    activateSpeakWidget();
+                } else if (action === 'look at') {
+                    activateLookAtWidget();
+                }
+
+                setTimeout(() => {
+                    let response;
+                    switch(action) {
+                        case 'fart':
+                            response = "Flatulence module activated. Area cleared.";
+                            break;
+                        case 'look at':
+                            response = "Ocular targeting system engaged. Subject locked.";
+                            break;
+                        case 'speak':
+                            response = "Vocal synthesizer online. Message transmitted.";
+                            break;
+                        case 'infant radar':
+                            response = "Infant detection array activated. Scanning perimeter.";
+                            break;
+                    }
+                    status.textContent = `Status: ${response}`;
+                }, 2000);
+            });
+        });
+
+        function activateInfantRadar() {
+            radarScreen.querySelectorAll('.radar-blip').forEach(blip => blip.remove());
+            for (let i = 0; i < 5; i++) {
+                const blip = document.createElement('div');
+                blip.className = 'radar-blip';
+                const angle = Math.random() * 360;
+                const distance = Math.random() * 40 + 10;
+                const x = 50 + distance * Math.cos(angle * Math.PI / 180);
+                const y = 50 + distance * Math.sin(angle * Math.PI / 180);
+                blip.style.left = `${x}%`;
+                blip.style.top = `${y}%`;
+                blip.style.animation = `blip-fade 2s forwards ${Math.random() * 4}s`;
+                radarScreen.appendChild(blip);
+            }
+        }
+
+        function activateSpeakWidget() {
+            const soundWave = document.getElementById('soundWave');
+            soundWave.innerHTML = '';
+            for (let i =0; i < 20; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'sound-bar';
+                bar.style.left = `${i * 5}%`;
+                bar.style.animationDelay = `${i * 0.05}s`;
+                soundWave.appendChild(bar);
+            }
+            setTimeout(() => {
+                soundWave.innerHTML = '';
+            }, 3000);
+        }
+
+        function activateLookAtWidget() {
+            lookAtWidget.querySelectorAll('.thermal-signature').forEach(sig => sig.remove());
+            for (let i = 0; i < 10; i++) {
+                const signature = document.createElement('div');
+                signature.className = 'thermal-signature';
+                const x = Math.random() * 80 + 10;
+                const y = Math.random() * 80 + 10;
+                signature.style.left = `${x}%`;
+                signature.style.top = `${y}%`;
+                const heat = Math.random();
+                signature.style.backgroundColor = `rgb(${255 * heat}, ${128 * (1-heat)}, 0)`;
+                lookAtWidget.appendChild(signature);
+            }
+            setTimeout(() => {
+                lookAtWidget.querySelectorAll('.thermal-signature').forEach(sig => sig.remove());
+            }, 3000);
+        }
+
+        let isDragging = false;
+        joystick.addEventListener('mousedown', () => isDragging = true);
+        document.addEventListener('mouseup', () => isDragging = false);
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const joystickRect = joystick.parentElement.getBoundingClientRect();
+                const centerX = joystickRect.left + joystickRect.width / 2;
+                const centerY = joystickRect.top + joystickRect.height / 2;
+                const maxRadius = joystickRect.width / 2 - joystick.offsetWidth / 2;
+                
+                let dx = e.clientX - centerX;
+                let dy = e.clientY - centerY;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                if (distance > maxRadius) {
+                    dx *= maxRadius / distance;
+                    dy *= maxRadius / distance;
+                }
+                
+                joystick.style.left = `${50 + (dx / maxRadius) * 50}%`;
+                joystick.style.top = `${50 +  (dy / maxRadius) * 50}%`;
+                
+                status.textContent = `Joystick: x=${Math.round((dx / maxRadius) * 100)}, y=${Math.round(-(dy / maxRadius) * 100)}`;
+            }
+        });
+
+        dpadButtons.forEach(button => {
+            button.addEventListener('mousedown', () => {
+                status.textContent = `D-pad: ${button.id.replace('dpad-', '')} pressed`;
+            });
+            button.addEventListener('mouseup', () => {
+                status.textContent = 'D-pad: released';
+            });
+        });
+
+        // Initial activation of infant radar
+        activateInfantRadar();
+
+        // Periodically update infant radar
+        setInterval(activateInfantRadar, 10000); // Update every 10 seconds
+    </script>
+</body></html>
