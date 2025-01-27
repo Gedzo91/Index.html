@@ -1,0 +1,889 @@
+<html>
+<head>
+<title>Advanced ASCII Map Generator with Biomes and Races</title>
+<style>
+  body {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  #map {
+    line-height: 1;
+    font-size: 16px;
+    background-color: #2d2d2d;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: pre;
+    letter-spacing: 0;
+    font-family: 'Courier New', monospace;
+  }
+  #map span {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    vertical-align: middle;
+  }
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #005a9e;
+  }
+  #legend {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 10px;
+  }
+  #legend div {
+    display: flex;
+    align-items: center;
+  }
+  #legend span {
+    margin-right: 5px;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    vertical-align: middle;
+  }
+  #status {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .settings-panel {
+    position: fixed;
+    right: -300px;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: #2d2d2d;
+    transition: right 0.3s ease;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+    overflow-y: auto;
+  }
+  .settings-panel.open {
+    right: 0;
+  }
+  .settings-toggle {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index: 1000;
+    background-color: #0078d4;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .settings-toggle:hover {
+    background-color: #005a9e;
+  }
+  .settings-group {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 20px;
+  }
+  .settings-group h3 {
+    margin-top: 0;
+    color: #0078d4;
+  }
+  .setting-item {
+    margin-bottom: 10px;
+  }
+  .setting-item label {
+    display: block;
+    margin-bottom: 5px;
+    color: #d4d4d4;
+  }
+  .setting-item input[type="range"] {
+    width: 100%;
+  }
+  .setting-item input[type="number"] {
+    width: 60px;
+    background: #1e1e1e;
+    border: 1px solid #444;
+    color: #d4d4d4;
+    padding: 5px;
+  }
+  .setting-value {
+    font-size: 0.8em;
+    color: #888;
+  }
+  #localMapContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2d2d2d;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 1000;
+  }
+  #localMap {
+    line-height: 1;
+    font-size: 16px;
+    white-space: pre;
+    letter-spacing: 0;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 10px;
+  }
+  .close-button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<h1>Advanced ASCII Map Generator with Biomes and Races</h1>
+<button class="settings-toggle" onclick="toggleSettings()">&#x2699;&#xfe0f; Settings</button>
+<div class="settings-panel" id="settingsPanel">
+  <h2>Map Generation Settings</h2>
+
+  <div class="settings-group">
+    <h3>Map Size</h3>
+    <div class="setting-item">
+      <label for="mapWidth">Width</label>
+      <input type="range" id="mapWidth" min="50" max="300" value="100" oninput="updateSetting(&apos;mapWidth&apos;)">
+      <span id="mapWidthValue" class="setting-value">100</span>
+    </div>
+    <div class="setting-item">
+      <label for="mapHeight">Height</label>
+      <input type="range" id="mapHeight" min="25" max="200" value="50" oninput="updateSetting(&apos;mapHeight&apos;)">
+      <span id="mapHeightValue" class="setting-value">50</span>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3>Land Generation</h3>
+    <div class="setting-item">
+      <label for="landSeeds">Land Seeds</label>
+      <input type="range" id="landSeeds" min="2" max="15" value="5" oninput="updateSetting(&apos;landSeeds&apos;)">
+      <span id="landSeedsValue" class="setting-value">5</span>
+    </div>
+    <div class="setting-item">
+      <label for="iterations">Growth Iterations</label>
+      <input type="range" id="iterations" min="20" max="150" value="50" oninput="updateSetting(&apos;iterations&apos;)">
+      <span id="iterationsValue" class="setting-value">50</span>
+    </div>
+    <div class="setting-item">
+      <label for="landGrowthRate">Land Growth Rate</label>
+      <input type="range" id="landGrowthRate" min="0.1" max="1" step="0.1" value="0.5" oninput="updateSetting(&apos;landGrowthRate&apos;)">
+      <span id="landGrowthRateValue" class="setting-value">0.5</span>
+    </div>  
+  </div>
+
+  <div class="settings-group">
+    <h3>Erosion</h3>
+    <div class="setting-item">
+      <label for="erosionIterations">Erosion Iterations</label>
+      <input type="range" id="erosionIterations" min="5" max="50" value="30" oninput="updateSetting(&apos;erosionIterations&apos;)">
+      <span id="erosionIterationsValue" class="setting-value">30</span>
+    </div>
+    <div class="setting-item">  
+      <label for="erosionStrength">Erosion Strength</label>
+      <input type="range" id="erosionStrength" min="1" max="30" value="10" oninput="updateSetting(&apos;erosionStrength&apos;)">
+      <span id="erosionStrengthValue" class="setting-value">10</span>
+    </div>
+    <div class="setting-item">
+      <label for="rainfallErosion">Rainfall Erosion</label>
+      <input type="range" id="rainfallErosion" min="1" max="20" value="10" oninput="updateSetting(&apos;rainfallErosion&apos;)">
+      <span id="rainfallErosionValue" class="setting-value">10</span>  
+    </div>
+    <div class="setting-item">
+      <label for="elevationErosion">Elevation Erosion</label>  
+      <input type="range" id="elevationErosion" min="1" max="20" value="10" oninput="updateSetting(&apos;elevationErosion&apos;)">
+      <span id="elevationErosionValue" class="setting-value">10</span>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3>Beaches</h3>
+    <div class="setting-item">
+      <label for="beachSize">Beach Width</label>
+      <input type="range" id="beachSize" min="1" max="5" value="1" oninput="updateSetting(&apos;beachSize&apos;)"> 
+      <span id="beachSizeValue" class="setting-value">1</span>
+    </div>
+    <div class="setting-item">
+      <label for="beachIterations">Beach Iterations</label>
+      <input type="range" id="beachIterations" min="5" max="25" value="10" oninput="updateSetting(&apos;beachIterations&apos;)">
+      <span id="beachIterationsValue" class="setting-value">10</span>
+    </div>
+    <div class="setting-item">
+      <label for="beachThreshold">Beach Elevation Threshold</label>
+      <input type="range" id="beachThreshold" min="0.1" max="0.5" step="0.05" value="0.2" oninput="updateSetting(&apos;beachThreshold&apos;)">
+      <span id="beachThresholdValue" class="setting-value">0.2</span>
+    </div>
+  </div>
+
+  <div class="settings-group">  
+    <h3>Climate</h3>
+    <div class="setting-item">  
+      <label for="climateIterations">Climate Iterations</label>
+      <input type="range" id="climateIterations" min="10" max="60" value="20" oninput="updateSetting(&apos;climateIterations&apos;)">
+      <span id="climateIterationsValue" class="setting-value">20</span>
+    </div>
+    <div class="setting-item">
+      <label for="temperatureRange">Temperature Range</label>
+      <input type="range" id="temperatureRange" min="50" max="150" value="100" oninput="updateSetting(&apos;temperatureRange&apos;)">
+      <span id="temperatureRangeValue" class="setting-value">100</span>
+    </div>  
+    <div class="setting-item">
+      <label for="rainfallRange">Rainfall Range</label>
+      <input type="range" id="rainfallRange" min="50" max="150" value="100" oninput="updateSetting(&apos;rainfallRange&apos;)">
+      <span id="rainfallRangeValue" class="setting-value">100</span>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3>Special Biomes</h3> 
+    <div class="setting-item">
+      <label for="biomePlacement">Biome Placement</label>
+      <input type="range" id="biomePlacement" min="1" max="10" value="3" oninput="updateSetting(&apos;biomePlacement&apos;)">
+      <span id="biomePlacementValue" class="setting-value">3</span>
+    </div>
+    <div class="setting-item">
+      <label for="biomeSpreadIterations">Biome Spread Iterations</label>
+      <input type="range" id="biomeSpreadIterations" min="5" max="40" value="15" oninput="updateSetting(&apos;biomeSpreadIterations&apos;)">
+      <span id="biomeSpreadIterationsValue" class="setting-value">15</span>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3>Races</h3>
+    <div class="setting-item">
+      <label for="racePlacement">Race Placement</label>
+      <input type="range" id="racePlacement" min="1" max="10" value="3" oninput="updateSetting(&apos;racePlacement&apos;)">  
+      <span id="racePlacementValue" class="setting-value">3</span>
+    </div>
+  </div>
+  
+</div>
+
+<div id="map"></div>
+<div id="status">Initializing...</div>
+<button onclick="startGeneration()" id="generateBtn">Generate New Map</button>
+<div id="legend"></div>
+<div id="localMapContainer">
+  <button class="close-button" onclick="closeLocalMap()">&#xd7;</button>
+  <h3>Local Area Map</h3>
+  <div id="localMap"></div>
+</div>
+
+<script>let settings = {
+  mapWidth: 100,
+  mapHeight: 50,
+  landSeeds: 5,
+  iterations: 50,
+  erosionIterations: 30,
+  climateIterations: 20,
+  biomeSpreadIterations: 15,
+  erosionStrength: 10,
+  beachSize: 1,
+  beachIterations: 10,
+  beachThreshold: 0.2,
+  landGrowthRate: 0.5,
+  rainfallErosion: 10,
+  elevationErosion: 10,
+  temperatureRange: 100,
+  rainfallRange: 100,
+  biomePlacement: 3,
+  racePlacement: 3
+};
+const WATER = '~';
+const LAND = '▓';
+const SAND = '▒';
+const BASE_LOCAL_SIZE = 20;
+let WIDTH, HEIGHT, LAND_SEEDS, ITERATIONS;
+let EROSION_ITERATIONS, CLIMATE_ITERATIONS, BIOME_SPREAD_ITERATIONS;
+let map, landmassIds, heatmap, rainfallMap, elevationMap, currentIteration;
+let biomes = [];
+let races = [];
+let mapElement;
+let selectedTile = null;
+let localMap = null;
+let LOCAL_SIZE = 20;
+function createArray(width, height, fillValue) {
+  return Array(height).fill().map(() => Array(width).fill(fillValue));
+}
+function toggleSettings() {
+  const panel = document.getElementById('settingsPanel');
+  panel.classList.toggle('open');
+}
+function updateSetting(settingId) {
+  const input = document.getElementById(settingId);
+  const valueDisplay = document.getElementById(settingId + 'Value');
+  settings[settingId] = parseFloat(input.value);
+  valueDisplay.textContent = settings[settingId].toFixed(2);
+}
+function generateHeatmap() {
+  const heatmap = createArray(WIDTH, HEIGHT, 0);
+  for (let y = 0; y < HEIGHT; y++) {
+    for (let x = 0; x < WIDTH; x++) {
+      const distFromEquator = Math.abs(y - HEIGHT / 2) / (HEIGHT / 2);
+      const baseHeat = 1 - Math.pow(distFromEquator, settings.temperatureRange / 100);
+      const randomFactor = Math.random() * 0.1 - 0.05;
+      heatmap[y][x] = Math.max(0, Math.min(1, baseHeat + randomFactor));
+    }
+  }
+  return heatmap;
+}
+function generateRainfallMap() {
+  const rainfallMap = createArray(WIDTH, HEIGHT, 0);
+  for (let y = 0; y < HEIGHT; y++) {
+    for (let x = 0; x < WIDTH; x++) {
+      const distFromEquator = Math.abs(y - HEIGHT / 2) / (HEIGHT / 2);
+      const baseRainfall = 1 - Math.abs(distFromEquator - settings.rainfallRange / 100);
+      const randomFactor = Math.random() * 0.15 - 0.075;
+      rainfallMap[y][x] = Math.max(0, Math.min(1, baseRainfall + randomFactor));
+    }
+  }
+  return rainfallMap;
+}
+function getNeighbors(x, y) {
+  const neighbors = [];
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      if (dx === 0 && dy === 0) continue;
+      const nx = x + dx;
+      const ny = y + dy;
+      if (nx >= 0 && nx < WIDTH && ny >= 0 && ny < HEIGHT) {
+        neighbors.push({
+          x: nx,
+          y: ny
+        });
+      }
+    }
+  }
+  return neighbors;
+}
+function hasNearbyLandmass(x, y, excludeId, distance = 4) {
+  for (let dy = -distance; dy <= distance; dy++) {
+    for (let dx = -distance; dx <= distance; dx++) {
+      const nx = x + dx;
+      const ny = y + dy;
+      if (nx >= 0 && nx < WIDTH && ny >= 0 && ny < HEIGHT) {
+        if (map[ny][nx] === LAND && landmassIds[ny][nx].id !== excludeId) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+function placeLandSeeds() {
+  for (let i = 1; i <= LAND_SEEDS; i++) {
+    let x, y;
+    do {
+      x = Math.floor(Math.random() * WIDTH);
+      y = Math.floor(Math.random() * HEIGHT);
+    } while (map[y][x] !== WATER);
+    map[y][x] = LAND;
+    landmassIds[y][x] = {
+      id: i,
+      connectedNeighbors: []
+    };
+    elevationMap[y][x] = 0.6 + Math.random() * 0.4;
+    const neighborsToConnect = Math.floor(Math.random() * 3);
+    const connectedNeighbors = new Set();
+    for (let j = 0; j < neighborsToConnect; j++) {
+      let neighborId;
+      do {
+        neighborId = Math.floor(Math.random() * LAND_SEEDS) + 1;
+      } while (neighborId === i || connectedNeighbors.has(neighborId));
+      connectedNeighbors.add(neighborId);
+    }
+    landmassIds[y][x].connectedNeighbors = Array.from(connectedNeighbors);
+  }
+  document.getElementById('status').textContent = 'Land seeds placed. Growing land...';
+  currentIteration = 0;
+  setTimeout(growLand, 100);
+}
+function growLand() {
+  if (currentIteration < ITERATIONS) {
+    const newMap = map.map(row => [...row]);
+    const newLandmassIds = landmassIds.map(row => row.map(cell => ({
+      ...cell
+    })));
+    const newElevationMap = elevationMap.map(row => [...row]);
+    for (let y = 0; y < HEIGHT; y++) {
+      for (let x = 0; x < WIDTH; x++) {
+        if (map[y][x] === WATER) {
+          const neighbors = getNeighbors(x, y);
+          const landNeighbors = neighbors.filter(n => map[n.y][n.x] === LAND);
+          if (landNeighbors.length > 0) {
+            const canSpread = landNeighbors.some(n => {
+              const neighborId = landmassIds[n.y][n.x].id;
+              return landmassIds[n.y][n.x].connectedNeighbors.includes(neighborId) || !hasNearbyLandmass(x, y, neighborId);
+            });
+            if (canSpread && Math.random() < settings.landGrowthRate * heatmap[y][x]) {
+              newMap[y][x] = LAND;
+              const parentNeighbor = landNeighbors[Math.floor(Math.random() * landNeighbors.length)];
+              newLandmassIds[y][x] = {
+                ...landmassIds[parentNeighbor.y][parentNeighbor.x]
+              };
+              newElevationMap[y][x] = elevationMap[parentNeighbor.y][parentNeighbor.x] * 0.95;
+            }
+          }
+        }
+      }
+    }
+    map = newMap;
+    landmassIds = newLandmassIds;
+    elevationMap = newElevationMap;
+    displayMap();
+    currentIteration++;
+    document.getElementById('status').textContent = `Growing land... ${Math.floor((currentIteration + 1) / ITERATIONS * 100)}%`;
+    setTimeout(growLand, 50);
+  } else {
+    document.getElementById('status').textContent = 'Land growth complete. Starting erosion...';
+    currentIteration = 0;
+    setTimeout(applyErosion, 100);
+  }
+}
+function applyErosion() {
+  if (currentIteration < EROSION_ITERATIONS) {
+    const newMap = map.map(row => [...row]);
+    const newElevationMap = elevationMap.map(row => [...row]);
+    for (let y = 0; y < HEIGHT; y++) {
+      for (let x = 0; x < WIDTH; x++) {
+        if (map[y][x] === LAND || map[y][x] === SAND) {
+          const neighbors = getNeighbors(x, y);
+          const waterNeighbors = neighbors.filter(n => map[n.y][n.x] === WATER);
+          const landNeighbors = neighbors.filter(n => map[n.y][n.x] !== WATER);
+          const baseErosion = settings.erosionStrength / 1000;
+          const rainfallEffect = rainfallMap[y][x] * (settings.rainfallErosion / 1000);
+          const elevationEffect = elevationMap[y][x] * (settings.elevationErosion / 1000);
+          const totalErosion = baseErosion + rainfallEffect + elevationEffect;
+          newElevationMap[y][x] -= totalErosion;
+          if (landNeighbors.length > 0) {
+            const avgNeighborElevation = landNeighbors.reduce((sum, n) => sum + elevationMap[n.y][n.x], 0) / landNeighbors.length;
+            newElevationMap[y][x] = newElevationMap[y][x] * 0.8 + avgNeighborElevation * 0.2;
+          }
+          if (newElevationMap[y][x] < 0.05) {
+            newMap[y][x] = WATER;
+          }
+        }
+      }
+    }
+    map = newMap;
+    elevationMap = newElevationMap;
+    displayMap();
+    currentIteration++;
+    document.getElementById('status').textContent = `Applying erosion... ${Math.floor((currentIteration + 1) / EROSION_ITERATIONS * 100)}%`;
+    setTimeout(applyErosion, 50);
+  } else {
+    document.getElementById('status').textContent = 'Erosion complete. Generating beaches...';
+    currentIteration = 0;
+    setTimeout(generateBeaches, 100);
+  }
+}
+function generateBeaches() {
+  const BEACH_ITERATIONS = settings.beachIterations;
+  if (currentIteration < BEACH_ITERATIONS) {
+    const newMap = map.map(row => [...row]);
+    for (let y = 0; y < HEIGHT; y++) {
+      for (let x = 0; x < WIDTH; x++) {
+        if (newMap[y][x] !== WATER) {
+          const neighbors = getNeighbors(x, y);
+          const waterNeighbors = neighbors.filter(n => map[n.y][n.x] === WATER);
+          if (waterNeighbors.length > 0) {
+            const beachThreshold = settings.beachThreshold;
+            if (elevationMap[y][x] < beachThreshold) {
+              newMap[y][x] = SAND;
+            }
+          }
+        }
+      }
+    }
+    for (let y = 0; y < HEIGHT; y++) {
+      for (let x = 0; x < WIDTH; x++) {
+        if (newMap[y][x] === SAND) {
+          const neighbors = getNeighbors(x, y);
+          const sandNeighbors = neighbors.filter(n => newMap[n.y][n.x] === SAND).length;
+          const waterNeighbors = neighbors.filter(n => newMap[n.y][n.x] === WATER).length;
+          if (sandNeighbors < 2 && waterNeighbors < 2) {
+            newMap[y][x] = LAND;
+          }
+        }
+      }
+    }
+    map = newMap;
+    displayMap();
+    currentIteration++;
+    document.getElementById('status').textContent = `Generating beaches... ${Math.floor((currentIteration + 1) / BEACH_ITERATIONS * 100)}%`;
+    setTimeout(generateBeaches, 50);
+  } else {
+    document.getElementById('status').textContent = 'Beach generation complete. Assigning climate...';
+    currentIteration = 0;
+    setTimeout(assignClimate, 100);
+  }
+}
+function assignClimate() {
+  for (let y = 0; y < HEIGHT; y++) {
+    for (let x = 0; x < WIDTH; x++) {
+      if (map[y][x] !== WATER && map[y][x] !== SAND) {
+        const heat = heatmap[y][x];
+        const rainfall = rainfallMap[y][x];
+        const elevation = elevationMap[y][x];
+        if (elevation > 0.8) map[y][x] = '▲';else if (heat < 0.2) map[y][x] = '❄';else if (heat < 0.4 && rainfall > 0.6) map[y][x] = '♣';else if (heat < 0.7 && rainfall > 0.7) map[y][x] = '♠';else if (heat < 0.7 && rainfall > 0.4) map[y][x] = '♣';else if (heat < 0.7) map[y][x] = '"';else if (heat >= 0.7 && rainfall < 0.2) map[y][x] = '.';else if (heat >= 0.7 && rainfall > 0.6) map[y][x] = '☼';else map[y][x] = ':';
+      }
+    }
+  }
+  displayMap();
+  document.getElementById('status').textContent = 'Climate assigned. Adding special biomes...';
+  setTimeout(addSpecialBiomes, 100);
+}
+function addSpecialBiomes() {
+  biomes = [{
+    char: '♰',
+    name: 'Evil',
+    color: 'purple'
+  }, {
+    char: '♥',
+    name: 'Fleshy',
+    color: 'red'
+  }, {
+    char: '☢',
+    name: 'Mushroom',
+    color: 'pink'
+  }];
+  for (let i = 0; i < settings.biomePlacement; i++) {
+    let x, y;
+    do {
+      x = Math.floor(Math.random() * WIDTH);
+      y = Math.floor(Math.random() * HEIGHT);
+    } while (map[y][x] === WATER);
+    map[y][x] = biomes[i].char;
+  }
+  currentIteration = 0;
+  setTimeout(spreadBiomes, 100);
+}
+function spreadBiomes() {
+  if (currentIteration < BIOME_SPREAD_ITERATIONS) {
+    const newMap = map.map(row => [...row]);
+    for (let y = 0; y < HEIGHT; y++) {
+      for (let x = 0; x < WIDTH; x++) {
+        if (biomes.some(biome => biome.char === map[y][x])) {
+          const neighbors = getNeighbors(x, y);
+          neighbors.forEach(n => {
+            if (map[n.y][n.x] !== WATER && map[n.y][n.x] !== SAND && Math.random() < 0.3) {
+              newMap[n.y][n.x] = map[y][x];
+            }
+          });
+        }
+      }
+    }
+    map = newMap;
+    displayMap();
+    currentIteration++;
+    document.getElementById('status').textContent = `Spreading biomes... ${Math.floor((currentIteration + 1) / BIOME_SPREAD_ITERATIONS * 100)}%`;
+    setTimeout(spreadBiomes, 50);
+  } else {
+    document.getElementById('status').textContent = 'Biomes complete. Adding races...';
+    setTimeout(addRaces, 100);
+  }
+}
+function addRaces() {
+  races = [{
+    char: 'D',
+    name: 'Dwarves',
+    color: 'yellow'
+  }, {
+    char: 'E',
+    name: 'Elves',
+    color: 'brown'
+  }, {
+    char: 'G',
+    name: 'Goblins',
+    color: 'blue'
+  }];
+  for (let i = 0; i < settings.racePlacement; i++) {
+    let x, y;
+    do {
+      x = Math.floor(Math.random() * WIDTH);
+      y = Math.floor(Math.random() * HEIGHT);
+    } while (map[y][x] === WATER || map[y][x] === SAND || biomes.some(biome => biome.char === map[y][x]));
+    map[y][x] = races[i].char;
+  }
+  displayMap();
+  updateLegend();
+  document.getElementById('status').textContent = 'Map generation complete!';
+  document.getElementById('generateBtn').disabled = false;
+}
+function displayMap() {
+  let mapString = '';
+  for (let y = 0; y < HEIGHT; y++) {
+    for (let x = 0; x < WIDTH; x++) {
+      const char = map[y][x];
+      let color = getTileColor(char);
+      mapString += `<span style="color: ${color}" onclick="generateLocalMap(${x}, ${y})">${char}</span>`;
+    }
+    mapString += '\n';
+  }
+  mapElement.innerHTML = mapString;
+}
+function getTileColor(char) {
+  switch (char) {
+    case WATER:
+      return 'hsl(210, 100%, 50%)';
+    case SAND:
+      return 'hsl(50, 70%, 75%)';
+    case '▲':
+      return '#808080';
+    case '❄':
+      return '#ffffff';
+    case '♣':
+      return '#228b22';
+    case '♠':
+      return '#006400';
+    case '"':
+      return '#90ee90';
+    case '.':
+      return '#f4a460';
+    case '☼':
+      return '#32cd32';
+    case ':':
+      return '#daa520';
+    case '♰':
+      return 'purple';
+    case '♥':
+      return 'red';
+    case '☢':
+      return 'pink';
+    case 'D':
+      return 'yellow';
+    case 'E':
+      return 'brown';
+    case 'G':
+      return 'blue';
+    default:
+      return '#ffffff';
+  }
+}
+function updateLegend() {
+  const legendElement = document.getElementById('legend');
+  legendElement.innerHTML = '';
+  const legendItems = [{
+    char: WATER,
+    desc: 'Water'
+  }, {
+    char: SAND,
+    desc: 'Beach'
+  }, {
+    char: '▲',
+    desc: 'Mountain'
+  }, {
+    char: '❄',
+    desc: 'Tundra'
+  }, {
+    char: '♣',
+    desc: 'Forest'
+  }, {
+    char: '♠',
+    desc: 'Dense Forest'
+  }, {
+    char: '"',
+    desc: 'Plains'
+  }, {
+    char: '.',
+    desc: 'Desert'
+  }, {
+    char: '☼',
+    desc: 'Jungle'
+  }, {
+    char: ':',
+    desc: 'Savanna'
+  }, {
+    char: '♰',
+    desc: 'Evil Biome'
+  }, {
+    char: '♥',
+    desc: 'Fleshy Biome'
+  }, {
+    char: '☢',
+    desc: 'Mushroom Biome'
+  }, {
+    char: 'D',
+    desc: 'Dwarves'
+  }, {
+    char: 'E',
+    desc: 'Elves'
+  }, {
+    char: 'G',
+    desc: 'Goblins'
+  }];
+  legendItems.forEach(item => {
+    const div = document.createElement('div');
+    const span = document.createElement('span');
+    span.textContent = item.char;
+    span.style.color = getTileColor(item.char);
+    div.appendChild(span);
+    div.appendChild(document.createTextNode(item.desc));
+    legendElement.appendChild(div);
+  });
+}
+function startGeneration() {
+  WIDTH = settings.mapWidth;
+  HEIGHT = settings.mapHeight;
+  LAND_SEEDS = settings.landSeeds;
+  ITERATIONS = settings.iterations;
+  EROSION_ITERATIONS = settings.erosionIterations;
+  CLIMATE_ITERATIONS = settings.climateIterations;
+  BIOME_SPREAD_ITERATIONS = settings.biomeSpreadIterations;
+  document.getElementById('generateBtn').disabled = true;
+  document.getElementById('status').textContent = 'Initializing...';
+  map = createArray(WIDTH, HEIGHT, WATER);
+  landmassIds = createArray(WIDTH, HEIGHT, 0);
+  heatmap = generateHeatmap();
+  rainfallMap = generateRainfallMap();
+  elevationMap = createArray(WIDTH, HEIGHT, 0);
+  currentIteration = 0;
+  mapElement = document.getElementById('map');
+  displayMap();
+  setTimeout(placeLandSeeds, 100);
+}
+window.addEventListener('load', () => {
+  Object.keys(settings).forEach(settingId => {
+    const input = document.getElementById(settingId);
+    const valueDisplay = document.getElementById(settingId + 'Value');
+    if (input && valueDisplay) {
+      input.value = settings[settingId];
+      valueDisplay.textContent = settings[settingId].toFixed(2);
+    }
+  });
+  startGeneration();
+});
+function generateLocalMap(x, y) {
+  const center = map[y][x];
+  const neighbors = {
+    north: y > 0 ? map[y - 1][x] : center,
+    south: y < HEIGHT - 1 ? map[y + 1][x] : center,
+    east: x < WIDTH - 1 ? map[y][x + 1] : center,
+    west: x > 0 ? map[y][x - 1] : center
+  };
+  LOCAL_SIZE = BASE_LOCAL_SIZE * 2;
+  localMap = createArray(LOCAL_SIZE, LOCAL_SIZE, null);
+  for (let lx = 0; lx < LOCAL_SIZE; lx++) {
+    localMap[0][lx] = neighbors.north;
+    localMap[LOCAL_SIZE - 1][lx] = neighbors.south;
+  }
+  for (let ly = 0; ly < LOCAL_SIZE; ly++) {
+    localMap[ly][0] = neighbors.west;
+    localMap[ly][LOCAL_SIZE - 1] = neighbors.east;
+  }
+  const biomeWeights = getBiomeWeights(center, neighbors);
+  for (let ly = 1; ly < LOCAL_SIZE - 1; ly++) {
+    for (let lx = 1; lx < LOCAL_SIZE - 1; lx++) {
+      const biome = selectBiomeByWeight(biomeWeights);
+      localMap[ly][lx] = biome;
+    }
+  }
+  smoothLocalMap();
+  displayLocalMap();
+  document.getElementById('localMapContainer').style.display = 'block';
+}
+function getBiomeWeights(center, neighbors) {
+  const weights = new Map();
+  weights.set(center, 0.5);
+  Object.values(neighbors).forEach(tile => {
+    if (tile) {
+      weights.set(tile, (weights.get(tile) || 0) + 0.125);
+    }
+  });
+  return weights;
+}
+function selectBiomeByWeight(weights) {
+  const total = Array.from(weights.values()).reduce((a, b) => a + b, 0);
+  let random = Math.random() * total;
+  for (const [biome, weight] of weights) {
+    random -= weight;
+    if (random <= 0) return biome;
+  }
+  return Array.from(weights.keys())[0];
+}
+function smoothLocalMap() {
+  const iterations = 2;
+  for (let i = 0; i < iterations; i++) {
+    const newMap = localMap.map(row => [...row]);
+    for (let y = 0; y < LOCAL_SIZE; y++) {
+      for (let x = 0; x < LOCAL_SIZE; x++) {
+        const neighbors = getLocalNeighbors(x, y);
+        const counts = new Map();
+        neighbors.forEach(n => {
+          const tile = localMap[n.y][n.x];
+          counts.set(tile, (counts.get(tile) || 0) + 1);
+        });
+        let maxCount = 0;
+        let mostCommon = localMap[y][x];
+        for (const [tile, count] of counts) {
+          if (count > maxCount) {
+            maxCount = count;
+            mostCommon = tile;
+          }
+        }
+        if (maxCount > neighbors.length / 2) {
+          newMap[y][x] = mostCommon;
+        }
+      }
+    }
+    localMap = newMap;
+  }
+}
+function getLocalNeighbors(x, y) {
+  const neighbors = [];
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      if (dx === 0 && dy === 0) continue;
+      const nx = x + dx;
+      const ny = y + dy;
+      if (nx >= 0 && nx < LOCAL_SIZE && ny >= 0 && ny < LOCAL_SIZE) {
+        neighbors.push({
+          x: nx,
+          y: ny
+        });
+      }
+    }
+  }
+  return neighbors;
+}
+function displayLocalMap() {
+  let mapString = '';
+  for (let y = 0; y < LOCAL_SIZE; y++) {
+    for (let x = 0; x < LOCAL_SIZE; x++) {
+      const char = localMap[y][x];
+      const color = getTileColor(char);
+      mapString += `<span style="color: ${color}">${char}</span>`;
+    }
+    mapString += '\n';
+  }
+  document.getElementById('localMap').innerHTML = mapString;
+}
+function closeLocalMap() {
+  document.getElementById('localMapContainer').style.display = 'none';
+}</script>
+
+</body>
+</html>
