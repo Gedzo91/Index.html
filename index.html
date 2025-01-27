@@ -1,0 +1,155 @@
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    transition: background-color 2s;
+  }
+
+  body.black-hole-mode {
+    background-color: #000;
+  }
+
+  .carrot-container {
+    cursor: pointer;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .speedometer {
+    width: 200px;
+    height: 100px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 2s, color 2s;
+  }
+
+  .black-hole-mode .speedometer {
+    background: #111;
+    color: #fff;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes collapse {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(0.1) rotate(1080deg); }
+  }
+
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  .black-hole-mode .star {
+    opacity: 1;
+  }
+
+  @keyframes starSpin {
+    0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+  }
+</style>
+</head>
+<body>
+  <div class="carrot-container" id="carrot-container">
+    <svg width="100" height="200" viewBox="0 0 100 200">
+      <!-- Carrot body -->
+      <path d="M50,0 Q80,100 50,200 Q20,100 50,0" fill="#ff6b0f"/>
+      <!-- Carrot lines -->
+      <path d="M50,40 Q60,60 50,80" stroke="#e65d00" fill="none" stroke-width="2"/>
+      <path d="M50,100 Q60,120 50,140" stroke="#e65d00" fill="none" stroke-width="2"/>
+      <!-- Carrot top leaves -->
+      <path d="M50,0 C30,-10 20,10 50,20" fill="#4CAF50"/>
+      <path d="M50,0 C70,-10 80,10 50,20" fill="#4CAF50"/>
+    </svg>
+  </div>
+
+  <div class="speedometer">
+    <h3>Speed</h3>
+    <div id="speed-value">0 RPM</div>
+  </div>
+
+<script>
+let currentSpeed = 1;
+const carrot = document.querySelector('.carrot-container svg');
+const speedValue = document.getElementById('speed-value');
+const body = document.body;
+const carrotContainer = document.getElementById('carrot-container');
+let isBlackHole = false;
+
+// Create stars
+function createStars() {
+  for(let i = 0; i < 50; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.width = Math.random() * 3 + 'px';
+    star.style.height = star.style.width;
+    star.style.animation = `starSpin ${Math.random() * 3 + 2}s linear infinite`;
+    star.style.top = '50%';
+    star.style.left = '50%';
+    carrotContainer.appendChild(star);
+  }
+}
+
+createStars();
+
+// Initial animation
+updateCarrotAnimation();
+
+// Click event to increase speed
+carrot.addEventListener('click', () => {
+    if (!isBlackHole) {
+        currentSpeed += 0.5;
+        updateCarrotAnimation();
+        
+        if (currentSpeed * 60 >= 2000) {
+            transformToBlackHole();
+        }
+    }
+});
+
+function updateCarrotAnimation() {
+    // Update the animation
+    carrot.style.animation = `spin ${1/currentSpeed}s linear infinite`;
+    
+    // Calculate and display RPM (60 seconds / animation duration = rotations per minute)
+    const rpm = Math.round((60 * currentSpeed) * 10) / 10;
+    speedValue.textContent = `${rpm} RPM`;
+}
+
+function transformToBlackHole() {
+    isBlackHole = true;
+    body.classList.add('black-hole-mode');
+    
+    // Transform carrot to black hole
+    carrot.style.animation = 'collapse 2s forwards';
+    setTimeout(() => {
+        carrot.innerHTML = `
+            <circle cx="50" cy="100" r="20" fill="black" stroke="#444" stroke-width="2">
+                <animate attributeName="r" values="20;22;20" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="50" cy="100" r="40" fill="none" stroke="#333" stroke-width="1">
+                <animate attributeName="r" values="40;45;40" dur="3s" repeatCount="indefinite"/>
+            </circle>
+        `;
+        carrot.style.animation = 'spin 2s linear infinite';
+    }, 2000);
+}
+</script>
+</body></html>
